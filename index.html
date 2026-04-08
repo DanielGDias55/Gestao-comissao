@@ -12,10 +12,36 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; }
-        input[type="month"]::-webkit-calendar-picker-indicator {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            margin: 0; padding: 0; cursor: pointer; opacity: 0;
+        
+        /* CORREÇÃO DO BUG DE CLIQUE NA DATA */
+        .date-input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
         }
+
+        /* O input ocupa a caixa mas não vaza para fora */
+        input[type="month"] {
+            position: relative;
+            background: transparent;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        /* Torna o seletor nativo clicável em toda a área do input, mas restrito a ele */
+        input[type="month"]::-webkit-calendar-picker-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
         #sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .sidebar-closed { transform: translateX(100%); }
         .dark input { color-scheme: dark; }
@@ -57,7 +83,7 @@
                 <div class="flex gap-2 items-center">
                     <div class="w-20 relative">
                         <input type="number" id="perc-vt" oninput="atualizarCalculosAutomáticos()" class="w-full px-2 py-1 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded text-center">
-                        <span class="absolute right-1 top-1 text-[10px] text-slate-400">%</span>
+                        <span class="absolute right-1 top-1 text-[10px] text-slate-400 font-bold">%</span>
                     </div>
                     <span class="text-xs text-slate-400">=</span>
                     <p id="val-vt-display" class="text-sm font-bold text-blue-500">R$ 0,00</p>
@@ -72,14 +98,13 @@
                 <div class="flex gap-2 items-center">
                     <div class="w-20 relative">
                         <input type="number" id="perc-adm" oninput="atualizarCalculosAutomáticos()" class="w-full px-2 py-1 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded text-center">
-                        <span class="absolute right-1 top-1 text-[10px] text-slate-400">%</span>
+                        <span class="absolute right-1 top-1 text-[10px] text-slate-400 font-bold">%</span>
                     </div>
                     <span class="text-xs text-slate-400">=</span>
                     <p id="val-adm-display" class="text-sm font-bold text-blue-500">R$ 0,00</p>
                 </div>
             </div>
         </div>
-        <p class="mt-6 text-[10px] text-slate-400 text-center italic">Desmarque as caixas para receber salário cheio.</p>
     </aside>
 
     <main class="max-w-7xl mx-auto px-6 py-10">
@@ -90,19 +115,23 @@
             </div>
             
             <div class="flex items-center gap-3 bg-white dark:bg-slate-900 p-2 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
-                <button onclick="toggleDarkMode()" class="p-2 mr-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-500 dark:text-amber-400">
+                <button onclick="toggleDarkMode()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-500 dark:text-amber-400">
                     <i data-lucide="moon" id="theme-icon-dark" class="w-5 h-5 hidden"></i>
                     <i data-lucide="sun" id="theme-icon-light" class="w-5 h-5"></i>
                 </button>
-                <div class="date-field-wrapper px-3 py-1.5 border border-slate-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                    <i data-lucide="calendar" class="w-4 h-4 text-blue-500 mr-2"></i>
-                    <input type="month" id="data-inicio" onchange="renderizarTabela()" class="text-sm font-medium outline-none bg-transparent dark:text-slate-200">
+                
+                <div class="flex items-center border border-slate-100 dark:border-slate-800 rounded-xl bg-slate-50/50 dark:bg-slate-800/50 overflow-hidden px-2">
+                    <div class="date-input-container px-2 py-1.5 hover:bg-white dark:hover:bg-slate-700 rounded-lg transition-all">
+                        <i data-lucide="calendar" class="w-4 h-4 text-blue-500 mr-2 shrink-0"></i>
+                        <input type="month" id="data-inicio" onchange="renderizarTabela()" class="text-xs font-bold outline-none w-28 uppercase">
+                    </div>
+                    <span class="text-slate-300 dark:text-slate-600 px-1">→</span>
+                    <div class="date-input-container px-2 py-1.5 hover:bg-white dark:hover:bg-slate-700 rounded-lg transition-all">
+                        <input type="month" id="data-fim" onchange="renderizarTabela()" class="text-xs font-bold outline-none w-28 text-right uppercase">
+                    </div>
                 </div>
-                <span class="text-slate-300 dark:text-slate-700">→</span>
-                <div class="date-field-wrapper px-3 py-1.5 border border-slate-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                    <input type="month" id="data-fim" onchange="renderizarTabela()" class="text-sm font-medium outline-none bg-transparent dark:text-slate-200 text-right">
-                </div>
-                <button onclick="novaLinha()" class="ml-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all shadow-lg shadow-emerald-200 dark:shadow-none">
+
+                <button onclick="novaLinha()" class="ml-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all shadow-lg shadow-emerald-200 dark:shadow-none shrink-0">
                     <i data-lucide="plus" class="w-4 h-4"></i> Cliente
                 </button>
             </div>
@@ -138,7 +167,7 @@
                         <tr class="bg-slate-900 dark:bg-black text-white uppercase text-[10px] font-bold tracking-widest">
                             <th class="px-6 py-4">Cliente / Contrato</th>
                             <th class="px-4 py-4 text-center">Lic.</th>
-                            <th class="px-4 py-4">Mês Ref.</th>
+                            <th class="px-4 py-4 text-center">Mês Ref.</th>
                             <th class="px-4 py-4">Vindi Link</th>
                             <th class="px-4 py-4 text-center">Comissão/Un</th>
                             <th class="px-4 py-4 text-center">Status</th>
@@ -157,7 +186,6 @@
 
     <script>
         let dados = JSON.parse(localStorage.getItem('dadosClientes')) || [];
-        // Configurações padrão expandidas
         let configs = JSON.parse(localStorage.getItem('configGerais')) || {
             salBase: 2190.10, saude: 243.58, 
             vtPerc: 6, vtActive: true,
@@ -183,7 +211,6 @@
             document.getElementById('sidebar-overlay').classList.toggle('hidden');
         }
 
-        // NOVO: Atualiza cálculos em tempo real na sidebar e na folha
         function atualizarCalculosAutomáticos() {
             const base = parseFloat(document.getElementById('base-sal').value) || 0;
             const pVT = parseFloat(document.getElementById('perc-vt').value) || 0;
@@ -262,7 +289,6 @@
             
             let bruto = configs.salBase + totalComissao;
             
-            // INSS e IRRF (Mesma lógica oficial)
             let inss = 0;
             if(bruto <= 1620) inss = bruto * 0.075;
             else if(bruto <= 2850) inss = (1620 * 0.075) + (bruto - 1620) * 0.09;
@@ -304,7 +330,7 @@
                 tr.innerHTML = `
                     <td class="px-6 py-4"><input type="text" value="${item.cliente}" onchange="atualizarDado(${item.id}, 'cliente', this.value)" class="w-full bg-transparent font-medium outline-none dark:text-slate-200"></td>
                     <td class="px-4 py-4 text-center"><input type="number" value="${item.licencas}" onchange="atualizarDado(${item.id}, 'licencas', this.value)" class="w-14 bg-slate-100 dark:bg-slate-800 rounded-md px-2 py-1 text-center font-bold dark:text-white"></td>
-                    <td class="px-4 py-4"><div class="date-field-wrapper w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1"><input type="month" value="${item.mes}" onchange="atualizarDado(${item.id}, 'mes', this.value)" class="text-[10px] font-bold outline-none w-full bg-transparent dark:text-slate-300"><i data-lucide="chevron-down" class="w-3 h-3 absolute right-2 text-slate-400 pointer-events-none"></i></div></td>
+                    <td class="px-4 py-4"><div class="date-input-container w-32 mx-auto bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1"><input type="month" value="${item.mes}" onchange="atualizarDado(${item.id}, 'mes', this.value)" class="text-[10px] font-bold outline-none w-full bg-transparent dark:text-slate-300"></div></td>
                     <td class="px-4 py-4"><div class="flex items-center gap-2"><input type="text" value="${item.vindi}" onchange="atualizarDado(${item.id}, 'vindi', this.value)" placeholder="Link..." class="text-[10px] w-full bg-transparent border-b border-slate-100 dark:border-slate-800 focus:border-blue-300 outline-none">${temLink ? `<a href="${item.vindi}" target="_blank" class="p-1.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg"><i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>` : ''}</div></td>
                     <td class="px-4 py-4"><div class="relative w-24 mx-auto"><span class="absolute left-2 top-1.5 text-[10px] text-slate-400 font-bold">R$</span><input type="number" value="${item.valorUnitario}" onchange="atualizarDado(${item.id}, 'valorUnitario', this.value)" class="w-full pl-7 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-right font-bold dark:text-white"></div></td>
                     <td class="px-4 py-4 text-center"><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" ${item.pago ? 'checked' : ''} onchange="atualizarDado(${item.id}, 'pago', this.checked)" class="sr-only peer"><div class="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div></label></td>
