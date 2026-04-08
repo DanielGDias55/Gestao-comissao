@@ -7,34 +7,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
-        // Configuração do Tailwind para aceitar modo escuro via classe
-        tailwind.config = {
-            darkMode: 'class',
-        }
+        tailwind.config = { darkMode: 'class' }
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; }
-        
         input[type="month"]::-webkit-calendar-picker-indicator {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             margin: 0; padding: 0; cursor: pointer; opacity: 0;
         }
-        .date-field-wrapper { position: relative; display: flex; align-items: center; }
-
         #sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .sidebar-closed { transform: translateX(100%); }
-        
-        /* Ajuste fino para inputs no modo dark */
         .dark input { color-scheme: dark; }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300">
 
     <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden" onclick="toggleSidebar()"></div>
-    <aside id="sidebar" class="fixed right-0 top-0 h-full w-80 bg-white dark:bg-slate-900 shadow-2xl z-50 p-6 sidebar-closed border-l border-slate-200 dark:border-slate-800">
+    
+    <aside id="sidebar" class="fixed right-0 top-0 h-full w-80 bg-white dark:bg-slate-900 shadow-2xl z-50 p-6 sidebar-closed border-l border-slate-200 dark:border-slate-800 overflow-y-auto">
         <div class="flex items-center justify-between mb-8">
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Ajustes Globais</h3>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Configurações Base</h3>
             <button onclick="toggleSidebar()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
                 <i data-lucide="x" class="w-5 h-5 text-slate-500"></i>
             </button>
@@ -42,27 +35,51 @@
 
         <div class="space-y-6">
             <div>
-                <label class="block text-xs font-medium uppercase tracking-wider text-slate-500 mb-2">Salário Base</label>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Salário Base</label>
                 <div class="relative">
                     <span class="absolute left-3 top-2 text-slate-400 font-bold">R$</span>
-                    <input type="number" id="base-sal" oninput="atualizarCamposAutomaticos()" class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                    <input type="number" id="base-sal" oninput="atualizarCalculosAutomáticos()" class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
             </div>
+
             <div>
-                <label class="block text-xs font-medium uppercase tracking-wider text-slate-500 mb-2">Plano de Saúde</label>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Plano de Saúde</label>
                 <input type="number" id="desc-saude" onchange="salvarConfig()" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-            <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800/50">
-                <div class="mb-4">
-                    <label class="block text-[10px] font-bold uppercase text-blue-600 dark:text-blue-400 mb-1">VT (6% Auto)</label>
-                    <input type="number" id="desc-vt" readonly class="w-full bg-transparent border-none p-0 text-blue-900 dark:text-blue-200 font-semibold focus:ring-0">
+
+            <hr class="border-slate-100 dark:border-slate-800">
+
+            <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                <div class="flex items-center justify-between mb-3">
+                    <label class="text-xs font-bold uppercase text-slate-500">Vale Transporte</label>
+                    <input type="checkbox" id="active-vt" onchange="atualizarCalculosAutomáticos()" class="w-4 h-4 accent-blue-500">
                 </div>
-                <div>
-                    <label class="block text-[10px] font-bold uppercase text-blue-600 dark:text-blue-400 mb-1">Adiantamento (40% Auto)</label>
-                    <input type="number" id="desc-adm" readonly class="w-full bg-transparent border-none p-0 text-blue-900 dark:text-blue-200 font-semibold focus:ring-0">
+                <div class="flex gap-2 items-center">
+                    <div class="w-20 relative">
+                        <input type="number" id="perc-vt" oninput="atualizarCalculosAutomáticos()" class="w-full px-2 py-1 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded text-center">
+                        <span class="absolute right-1 top-1 text-[10px] text-slate-400">%</span>
+                    </div>
+                    <span class="text-xs text-slate-400">=</span>
+                    <p id="val-vt-display" class="text-sm font-bold text-blue-500">R$ 0,00</p>
+                </div>
+            </div>
+
+            <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                <div class="flex items-center justify-between mb-3">
+                    <label class="text-xs font-bold uppercase text-slate-500">Adiantamento</label>
+                    <input type="checkbox" id="active-adm" onchange="atualizarCalculosAutomáticos()" class="w-4 h-4 accent-blue-500">
+                </div>
+                <div class="flex gap-2 items-center">
+                    <div class="w-20 relative">
+                        <input type="number" id="perc-adm" oninput="atualizarCalculosAutomáticos()" class="w-full px-2 py-1 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded text-center">
+                        <span class="absolute right-1 top-1 text-[10px] text-slate-400">%</span>
+                    </div>
+                    <span class="text-xs text-slate-400">=</span>
+                    <p id="val-adm-display" class="text-sm font-bold text-blue-500">R$ 0,00</p>
                 </div>
             </div>
         </div>
+        <p class="mt-6 text-[10px] text-slate-400 text-center italic">Desmarque as caixas para receber salário cheio.</p>
     </aside>
 
     <main class="max-w-7xl mx-auto px-6 py-10">
@@ -73,7 +90,7 @@
             </div>
             
             <div class="flex items-center gap-3 bg-white dark:bg-slate-900 p-2 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
-                <button onclick="toggleDarkMode()" class="p-2 mr-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-500 dark:text-amber-400" title="Alternar Tema">
+                <button onclick="toggleDarkMode()" class="p-2 mr-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-500 dark:text-amber-400">
                     <i data-lucide="moon" id="theme-icon-dark" class="w-5 h-5 hidden"></i>
                     <i data-lucide="sun" id="theme-icon-light" class="w-5 h-5"></i>
                 </button>
@@ -91,7 +108,7 @@
             </div>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8 text-center md:text-left">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
             <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm border-l-4 border-l-blue-500 transition-colors">
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Bruto Total</p>
                 <p id="res-bruto" class="text-lg font-bold text-slate-900 dark:text-white">R$ 0,00</p>
@@ -108,7 +125,7 @@
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Descontos Fixos</p>
                 <p id="res-descontos" class="text-lg font-bold text-slate-900 dark:text-white">R$ 0,00</p>
             </div>
-            <div class="bg-emerald-600 dark:bg-emerald-700 p-5 rounded-2xl shadow-xl shadow-emerald-100 dark:shadow-none border border-emerald-500 transition-all transform hover:scale-[1.02]">
+            <div class="bg-emerald-600 dark:bg-emerald-700 p-5 rounded-2xl shadow-xl border border-emerald-500 transition-all transform hover:scale-[1.02]">
                 <p class="text-[10px] font-bold text-emerald-100 uppercase tracking-widest mb-1">Salário Líquido</p>
                 <p id="res-liquido" class="text-xl font-black text-white">R$ 0,00</p>
             </div>
@@ -134,28 +151,31 @@
         </div>
     </main>
 
-    <button onclick="toggleSidebar()" class="fixed bottom-8 right-8 w-14 h-14 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40">
+    <button onclick="toggleSidebar()" class="fixed bottom-8 right-8 w-14 h-14 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all z-40">
         <i data-lucide="settings-2"></i>
     </button>
 
     <script>
         let dados = JSON.parse(localStorage.getItem('dadosClientes')) || [];
+        // Configurações padrão expandidas
         let configs = JSON.parse(localStorage.getItem('configGerais')) || {
-            salBase: 2190.10, saude: 243.58, vt: 131.41, adm: 876.04
+            salBase: 2190.10, saude: 243.58, 
+            vtPerc: 6, vtActive: true,
+            admPerc: 40, admActive: true
         };
 
-        // --- Lógica de Modo Dark ---
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            applyTheme();
+        }
+
         function applyTheme() {
-            const isDark = localStorage.getItem('theme') === 'dark';
+            const theme = localStorage.getItem('theme');
+            const isDark = theme === 'dark';
             document.documentElement.classList.toggle('dark', isDark);
             document.getElementById('theme-icon-dark').classList.toggle('hidden', !isDark);
             document.getElementById('theme-icon-light').classList.toggle('hidden', isDark);
-        }
-
-        function toggleDarkMode() {
-            const isDark = document.documentElement.classList.contains('dark');
-            localStorage.setItem('theme', isDark ? 'light' : 'dark');
-            applyTheme();
         }
 
         function toggleSidebar() {
@@ -163,10 +183,20 @@
             document.getElementById('sidebar-overlay').classList.toggle('hidden');
         }
 
-        function atualizarCamposAutomaticos() {
-            const salBase = parseFloat(document.getElementById('base-sal').value) || 0;
-            document.getElementById('desc-vt').value = (salBase * 0.06).toFixed(2);
-            document.getElementById('desc-adm').value = (salBase * 0.40).toFixed(2);
+        // NOVO: Atualiza cálculos em tempo real na sidebar e na folha
+        function atualizarCalculosAutomáticos() {
+            const base = parseFloat(document.getElementById('base-sal').value) || 0;
+            const pVT = parseFloat(document.getElementById('perc-vt').value) || 0;
+            const pAdm = parseFloat(document.getElementById('perc-adm').value) || 0;
+            const vtAtivo = document.getElementById('active-vt').checked;
+            const admAtivo = document.getElementById('active-adm').checked;
+
+            const valVT = vtAtivo ? (base * (pVT / 100)) : 0;
+            const valAdm = admAtivo ? (base * (pAdm / 100)) : 0;
+
+            document.getElementById('val-vt-display').innerText = valVT.toLocaleString('pt-br',{style:'currency', currency:'BRL'});
+            document.getElementById('val-adm-display').innerText = valAdm.toLocaleString('pt-br',{style:'currency', currency:'BRL'});
+
             salvarConfig();
         }
 
@@ -174,8 +204,10 @@
             configs = {
                 salBase: parseFloat(document.getElementById('base-sal').value) || 0,
                 saude: parseFloat(document.getElementById('desc-saude').value) || 0,
-                vt: parseFloat(document.getElementById('desc-vt').value) || 0,
-                adm: parseFloat(document.getElementById('desc-adm').value) || 0
+                vtPerc: parseFloat(document.getElementById('perc-vt').value) || 0,
+                vtActive: document.getElementById('active-vt').checked,
+                admPerc: parseFloat(document.getElementById('perc-adm').value) || 0,
+                admActive: document.getElementById('active-adm').checked
             };
             localStorage.setItem('configGerais', JSON.stringify(configs));
             calcularTudo();
@@ -185,17 +217,21 @@
             applyTheme();
             document.getElementById('base-sal').value = configs.salBase;
             document.getElementById('desc-saude').value = configs.saude;
-            document.getElementById('desc-vt').value = configs.vt;
-            document.getElementById('desc-adm').value = configs.adm;
+            document.getElementById('perc-vt').value = configs.vtPerc;
+            document.getElementById('active-vt').checked = configs.vtActive;
+            document.getElementById('perc-adm').value = configs.admPerc;
+            document.getElementById('active-adm').checked = configs.admActive;
+            
+            const vtVal = configs.vtActive ? (configs.salBase * (configs.vtPerc/100)) : 0;
+            const admVal = configs.admActive ? (configs.salBase * (configs.admPerc/100)) : 0;
+            document.getElementById('val-vt-display').innerText = vtVal.toLocaleString('pt-br',{style:'currency', currency:'BRL'});
+            document.getElementById('val-adm-display').innerText = admVal.toLocaleString('pt-br',{style:'currency', currency:'BRL'});
+
             renderizarTabela();
         }
 
         function novaLinha() {
-            dados.push({
-                id: Date.now(), cliente: "", licencas: 1,
-                mes: new Date().toISOString().slice(0, 7),
-                vindi: "", valorUnitario: 40.00, pago: false
-            });
+            dados.push({ id: Date.now(), cliente: "", licencas: 1, mes: new Date().toISOString().slice(0, 7), vindi: "", valorUnitario: 40.00, pago: false });
             renderizarTabela();
             localStorage.setItem('dadosClientes', JSON.stringify(dados));
         }
@@ -211,8 +247,7 @@
             if (item) {
                 item[campo] = (['licencas', 'valorUnitario'].includes(campo)) ? parseFloat(valor) : valor;
                 localStorage.setItem('dadosClientes', JSON.stringify(dados));
-                if(campo === 'pago' || campo === 'mes') renderizarTabela();
-                else calcularTudo();
+                if(campo === 'pago' || campo === 'mes') renderizarTabela(); else calcularTudo();
             }
         }
 
@@ -226,6 +261,8 @@
             });
             
             let bruto = configs.salBase + totalComissao;
+            
+            // INSS e IRRF (Mesma lógica oficial)
             let inss = 0;
             if(bruto <= 1620) inss = bruto * 0.075;
             else if(bruto <= 2850) inss = (1620 * 0.075) + (bruto - 1620) * 0.09;
@@ -240,7 +277,9 @@
             else if(baseIRRF <= 6500) irrf = (baseIRRF * 0.225 - 675.49);
             else irrf = (baseIRRF * 0.275 - 908.73);
 
-            let fixos = configs.saude + configs.vt + configs.adm;
+            const vtCalculado = configs.vtActive ? (configs.salBase * (configs.vtPerc / 100)) : 0;
+            const admCalculado = configs.admActive ? (configs.salBase * (configs.admPerc / 100)) : 0;
+            let fixos = configs.saude + vtCalculado + admCalculado;
             let liquido = bruto - inss - irrf - fixos;
 
             document.getElementById('res-bruto').innerText = bruto.toLocaleString('pt-br',{style:'currency', currency:'BRL'});
@@ -263,45 +302,13 @@
                 const tr = document.createElement('tr');
                 tr.className = "group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors";
                 tr.innerHTML = `
-                    <td class="px-6 py-4">
-                        <input type="text" value="${item.cliente}" onchange="atualizarDado(${item.id}, 'cliente', this.value)" 
-                        class="w-full bg-transparent font-medium border-b border-transparent focus:border-blue-300 outline-none dark:text-slate-200">
-                    </td>
-                    <td class="px-4 py-4 text-center">
-                        <input type="number" value="${item.licencas}" onchange="atualizarDado(${item.id}, 'licencas', this.value)" 
-                        class="w-14 bg-slate-100 dark:bg-slate-800 rounded-md px-2 py-1 text-center font-bold dark:text-white">
-                    </td>
-                    <td class="px-4 py-4">
-                        <div class="date-field-wrapper w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1">
-                            <input type="month" value="${item.mes}" onchange="atualizarDado(${item.id}, 'mes', this.value)" class="text-[10px] font-bold outline-none w-full bg-transparent dark:text-slate-300">
-                            <i data-lucide="chevron-down" class="w-3 h-3 absolute right-2 text-slate-400 pointer-events-none"></i>
-                        </div>
-                    </td>
-                    <td class="px-4 py-4">
-                        <div class="flex items-center gap-2">
-                            <input type="text" value="${item.vindi}" onchange="atualizarDado(${item.id}, 'vindi', this.value)" 
-                            placeholder="Link..." class="text-[10px] w-full bg-transparent border-b border-slate-100 dark:border-slate-800 focus:border-blue-300 outline-none">
-                            ${temLink ? `<a href="${item.vindi}" target="_blank" class="p-1.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg"><i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>` : ''}
-                        </div>
-                    </td>
-                    <td class="px-4 py-4">
-                        <div class="relative w-24 mx-auto">
-                            <span class="absolute left-2 top-1.5 text-[10px] text-slate-400 font-bold">R$</span>
-                            <input type="number" value="${item.valorUnitario}" onchange="atualizarDado(${item.id}, 'valorUnitario', this.value)" 
-                            class="w-full pl-7 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-right font-bold dark:text-white">
-                        </div>
-                    </td>
-                    <td class="px-4 py-4 text-center">
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" ${item.pago ? 'checked' : ''} onchange="atualizarDado(${item.id}, 'pago', this.checked)" class="sr-only peer">
-                            <div class="w-9 h-5 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
-                        </label>
-                    </td>
-                    <td class="px-6 py-4 text-right">
-                        <button onclick="excluirLinha(${item.id})" class="p-2 text-slate-300 hover:text-rose-500 rounded-lg transition-all">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
-                    </td>
+                    <td class="px-6 py-4"><input type="text" value="${item.cliente}" onchange="atualizarDado(${item.id}, 'cliente', this.value)" class="w-full bg-transparent font-medium outline-none dark:text-slate-200"></td>
+                    <td class="px-4 py-4 text-center"><input type="number" value="${item.licencas}" onchange="atualizarDado(${item.id}, 'licencas', this.value)" class="w-14 bg-slate-100 dark:bg-slate-800 rounded-md px-2 py-1 text-center font-bold dark:text-white"></td>
+                    <td class="px-4 py-4"><div class="date-field-wrapper w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1"><input type="month" value="${item.mes}" onchange="atualizarDado(${item.id}, 'mes', this.value)" class="text-[10px] font-bold outline-none w-full bg-transparent dark:text-slate-300"><i data-lucide="chevron-down" class="w-3 h-3 absolute right-2 text-slate-400 pointer-events-none"></i></div></td>
+                    <td class="px-4 py-4"><div class="flex items-center gap-2"><input type="text" value="${item.vindi}" onchange="atualizarDado(${item.id}, 'vindi', this.value)" placeholder="Link..." class="text-[10px] w-full bg-transparent border-b border-slate-100 dark:border-slate-800 focus:border-blue-300 outline-none">${temLink ? `<a href="${item.vindi}" target="_blank" class="p-1.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg"><i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>` : ''}</div></td>
+                    <td class="px-4 py-4"><div class="relative w-24 mx-auto"><span class="absolute left-2 top-1.5 text-[10px] text-slate-400 font-bold">R$</span><input type="number" value="${item.valorUnitario}" onchange="atualizarDado(${item.id}, 'valorUnitario', this.value)" class="w-full pl-7 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-right font-bold dark:text-white"></div></td>
+                    <td class="px-4 py-4 text-center"><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" ${item.pago ? 'checked' : ''} onchange="atualizarDado(${item.id}, 'pago', this.checked)" class="sr-only peer"><div class="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div></label></td>
+                    <td class="px-6 py-4 text-right"><button onclick="excluirLinha(${item.id})" class="p-2 text-slate-300 hover:text-rose-500 transition-all"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
                 `;
                 corpo.appendChild(tr);
             });
