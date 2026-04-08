@@ -1,36 +1,41 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaaS Commission Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script>
+        // Configuração do Tailwind para aceitar modo escuro via classe
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-
-        /* Ajuste para o calendário ocupar todo o campo e ser clicável */
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; }
+        
         input[type="month"]::-webkit-calendar-picker-indicator {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             margin: 0; padding: 0; cursor: pointer; opacity: 0;
         }
         .date-field-wrapper { position: relative; display: flex; align-items: center; }
 
-        /* Sidebar Transition */
-        #sidebar { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        #sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .sidebar-closed { transform: translateX(100%); }
+        
+        /* Ajuste fino para inputs no modo dark */
+        .dark input { color-scheme: dark; }
     </style>
 </head>
-<body class="text-slate-800">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300">
 
     <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden" onclick="toggleSidebar()"></div>
-    <aside id="sidebar" class="fixed right-0 top-0 h-full w-80 bg-white shadow-2xl z-50 p-6 sidebar-closed border-l border-slate-200">
+    <aside id="sidebar" class="fixed right-0 top-0 h-full w-80 bg-white dark:bg-slate-900 shadow-2xl z-50 p-6 sidebar-closed border-l border-slate-200 dark:border-slate-800">
         <div class="flex items-center justify-between mb-8">
-            <h3 class="text-lg font-semibold text-slate-900">Ajustes Globais</h3>
-            <button onclick="toggleSidebar()" class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Ajustes Globais</h3>
+            <button onclick="toggleSidebar()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
                 <i data-lucide="x" class="w-5 h-5 text-slate-500"></i>
             </button>
         </div>
@@ -39,22 +44,22 @@
             <div>
                 <label class="block text-xs font-medium uppercase tracking-wider text-slate-500 mb-2">Salário Base</label>
                 <div class="relative">
-                    <span class="absolute left-3 top-2 text-slate-400">R$</span>
-                    <input type="number" id="base-sal" oninput="atualizarCamposAutomaticos()" class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    <span class="absolute left-3 top-2 text-slate-400 font-bold">R$</span>
+                    <input type="number" id="base-sal" oninput="atualizarCamposAutomaticos()" class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 transition-all">
                 </div>
             </div>
             <div>
                 <label class="block text-xs font-medium uppercase tracking-wider text-slate-500 mb-2">Plano de Saúde</label>
-                <input type="number" id="desc-saude" onchange="salvarConfig()" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                <input type="number" id="desc-saude" onchange="salvarConfig()" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-            <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
+            <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800/50">
                 <div class="mb-4">
-                    <label class="block text-[10px] font-bold uppercase text-blue-600 mb-1">VT (6% Automático)</label>
-                    <input type="number" id="desc-vt" readonly class="w-full bg-transparent border-none p-0 text-blue-900 font-semibold focus:ring-0">
+                    <label class="block text-[10px] font-bold uppercase text-blue-600 dark:text-blue-400 mb-1">VT (6% Auto)</label>
+                    <input type="number" id="desc-vt" readonly class="w-full bg-transparent border-none p-0 text-blue-900 dark:text-blue-200 font-semibold focus:ring-0">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-bold uppercase text-blue-600 mb-1">Adiantamento (40% Auto)</label>
-                    <input type="number" id="desc-adm" readonly class="w-full bg-transparent border-none p-0 text-blue-900 font-semibold focus:ring-0">
+                    <label class="block text-[10px] font-bold uppercase text-blue-600 dark:text-blue-400 mb-1">Adiantamento (40% Auto)</label>
+                    <input type="number" id="desc-adm" readonly class="w-full bg-transparent border-none p-0 text-blue-900 dark:text-blue-200 font-semibold focus:ring-0">
                 </div>
             </div>
         </div>
@@ -63,68 +68,73 @@
     <main class="max-w-7xl mx-auto px-6 py-10">
         <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
             <div>
-                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Gestão de Contratos</h1>
-                <p class="text-slate-500 text-sm font-medium">Controle de comissões e folha líquida</p>
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Gestão de Contratos</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Controle de comissões e folha líquida</p>
             </div>
-
-            <div class="flex items-center gap-3 bg-white p-2 rounded-2xl shadow-sm border border-slate-200">
-                <div class="date-field-wrapper px-3 py-1.5 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
+            
+            <div class="flex items-center gap-3 bg-white dark:bg-slate-900 p-2 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+                <button onclick="toggleDarkMode()" class="p-2 mr-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-500 dark:text-amber-400" title="Alternar Tema">
+                    <i data-lucide="moon" id="theme-icon-dark" class="w-5 h-5 hidden"></i>
+                    <i data-lucide="sun" id="theme-icon-light" class="w-5 h-5"></i>
+                </button>
+                <div class="date-field-wrapper px-3 py-1.5 border border-slate-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                     <i data-lucide="calendar" class="w-4 h-4 text-blue-500 mr-2"></i>
-                    <input type="month" id="data-inicio" onchange="renderizarTabela()" class="text-sm font-medium outline-none bg-transparent">
+                    <input type="month" id="data-inicio" onchange="renderizarTabela()" class="text-sm font-medium outline-none bg-transparent dark:text-slate-200">
                 </div>
-                <span class="text-slate-300">→</span>
-                <div class="date-field-wrapper px-3 py-1.5 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
-                    <input type="month" id="data-fim" onchange="renderizarTabela()" class="text-sm font-medium outline-none bg-transparent text-right">
+                <span class="text-slate-300 dark:text-slate-700">→</span>
+                <div class="date-field-wrapper px-3 py-1.5 border border-slate-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                    <input type="month" id="data-fim" onchange="renderizarTabela()" class="text-sm font-medium outline-none bg-transparent dark:text-slate-200 text-right">
                 </div>
-                <button onclick="novaLinha()" class="ml-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all shadow-lg shadow-emerald-200">
+                <button onclick="novaLinha()" class="ml-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all shadow-lg shadow-emerald-200 dark:shadow-none">
                     <i data-lucide="plus" class="w-4 h-4"></i> Cliente
                 </button>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-blue-500">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8 text-center md:text-left">
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm border-l-4 border-l-blue-500 transition-colors">
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Bruto Total</p>
-                <p id="res-bruto" class="text-lg font-bold text-slate-900">R$ 0,00</p>
+                <p id="res-bruto" class="text-lg font-bold text-slate-900 dark:text-white">R$ 0,00</p>
             </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-amber-500">
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm border-l-4 border-l-amber-500 transition-colors">
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">INSS</p>
-                <p id="res-inss" class="text-lg font-bold text-slate-900">R$ 0,00</p>
+                <p id="res-inss" class="text-lg font-bold text-slate-900 dark:text-white">R$ 0,00</p>
             </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-rose-500">
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm border-l-4 border-l-rose-500 transition-colors">
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">IRRF</p>
-                <p id="res-irrf" class="text-lg font-bold text-slate-900">R$ 0,00</p>
+                <p id="res-irrf" class="text-lg font-bold text-slate-900 dark:text-white">R$ 0,00</p>
             </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-indigo-500">
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm border-l-4 border-l-indigo-500 transition-colors">
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Descontos Fixos</p>
-                <p id="res-descontos" class="text-lg font-bold text-slate-900">R$ 0,00</p>
+                <p id="res-descontos" class="text-lg font-bold text-slate-900 dark:text-white">R$ 0,00</p>
             </div>
-            <div class="bg-emerald-600 p-5 rounded-2xl shadow-xl shadow-emerald-100 border border-emerald-500 transform hover:scale-[1.02] transition-transform">
+            <div class="bg-emerald-600 dark:bg-emerald-700 p-5 rounded-2xl shadow-xl shadow-emerald-100 dark:shadow-none border border-emerald-500 transition-all transform hover:scale-[1.02]">
                 <p class="text-[10px] font-bold text-emerald-100 uppercase tracking-widest mb-1">Salário Líquido</p>
                 <p id="res-liquido" class="text-xl font-black text-white">R$ 0,00</p>
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-slate-900 text-white uppercase text-[10px] font-bold tracking-widest">
-                        <th class="px-6 py-4">Cliente / Contrato</th>
-                        <th class="px-4 py-4 text-center">Lic.</th>
-                        <th class="px-4 py-4">Mês Ref.</th>
-                        <th class="px-4 py-4">Vindi Link</th>
-                        <th class="px-4 py-4 text-center">Comissão/Un</th>
-                        <th class="px-4 py-4 text-center">Status</th>
-                        <th class="px-6 py-4 text-right">Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="corpo-tabela" class="divide-y divide-slate-100">
-                    </tbody>
-            </table>
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900 dark:bg-black text-white uppercase text-[10px] font-bold tracking-widest">
+                            <th class="px-6 py-4">Cliente / Contrato</th>
+                            <th class="px-4 py-4 text-center">Lic.</th>
+                            <th class="px-4 py-4">Mês Ref.</th>
+                            <th class="px-4 py-4">Vindi Link</th>
+                            <th class="px-4 py-4 text-center">Comissão/Un</th>
+                            <th class="px-4 py-4 text-center">Status</th>
+                            <th class="px-6 py-4 text-right">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpo-tabela" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+                </table>
+            </div>
         </div>
     </main>
 
-    <button onclick="toggleSidebar()" class="fixed bottom-8 right-8 w-14 h-14 bg-slate-900 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40">
+    <button onclick="toggleSidebar()" class="fixed bottom-8 right-8 w-14 h-14 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40">
         <i data-lucide="settings-2"></i>
     </button>
 
@@ -133,6 +143,20 @@
         let configs = JSON.parse(localStorage.getItem('configGerais')) || {
             salBase: 2190.10, saude: 243.58, vt: 131.41, adm: 876.04
         };
+
+        // --- Lógica de Modo Dark ---
+        function applyTheme() {
+            const isDark = localStorage.getItem('theme') === 'dark';
+            document.documentElement.classList.toggle('dark', isDark);
+            document.getElementById('theme-icon-dark').classList.toggle('hidden', !isDark);
+            document.getElementById('theme-icon-light').classList.toggle('hidden', isDark);
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            applyTheme();
+        }
 
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('sidebar-closed');
@@ -158,11 +182,11 @@
         }
 
         function carregarDadosIniciais() {
+            applyTheme();
             document.getElementById('base-sal').value = configs.salBase;
             document.getElementById('desc-saude').value = configs.saude;
             document.getElementById('desc-vt').value = configs.vt;
             document.getElementById('desc-adm').value = configs.adm;
-            lucide.createIcons();
             renderizarTabela();
         }
 
@@ -196,15 +220,12 @@
             const dInicio = document.getElementById('data-inicio').value;
             const dFim = document.getElementById('data-fim').value;
             let totalComissao = 0;
-
             dados.forEach(item => {
                 const dentro = (!dInicio || item.mes >= dInicio) && (!dFim || item.mes <= dFim);
                 if (item.pago && dentro) totalComissao += (item.licencas * item.valorUnitario);
             });
-
+            
             let bruto = configs.salBase + totalComissao;
-
-            // Fórmulas originais mantidas
             let inss = 0;
             if(bruto <= 1620) inss = bruto * 0.075;
             else if(bruto <= 2850) inss = (1620 * 0.075) + (bruto - 1620) * 0.09;
@@ -239,46 +260,45 @@
             dados.forEach(item => {
                 if ((dInicio && item.mes < dInicio) || (dFim && item.mes > dFim)) return;
                 const temLink = item.vindi && item.vindi.startsWith('http');
-
                 const tr = document.createElement('tr');
-                tr.className = "group hover:bg-slate-50 transition-colors";
+                tr.className = "group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors";
                 tr.innerHTML = `
                     <td class="px-6 py-4">
-                        <input type="text" value="${item.cliente}" onchange="atualizarDado(${item.id}, 'cliente', this.value)"
-                        class="w-full bg-transparent font-medium border-b border-transparent focus:border-blue-300 outline-none">
+                        <input type="text" value="${item.cliente}" onchange="atualizarDado(${item.id}, 'cliente', this.value)" 
+                        class="w-full bg-transparent font-medium border-b border-transparent focus:border-blue-300 outline-none dark:text-slate-200">
+                    </td>
+                    <td class="px-4 py-4 text-center">
+                        <input type="number" value="${item.licencas}" onchange="atualizarDado(${item.id}, 'licencas', this.value)" 
+                        class="w-14 bg-slate-100 dark:bg-slate-800 rounded-md px-2 py-1 text-center font-bold dark:text-white">
                     </td>
                     <td class="px-4 py-4">
-                        <input type="number" value="${item.licencas}" onchange="atualizarDado(${item.id}, 'licencas', this.value)"
-                        class="w-16 mx-auto bg-slate-100 rounded-md px-2 py-1 text-center font-bold">
-                    </td>
-                    <td class="px-4 py-4">
-                        <div class="date-field-wrapper w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1">
-                            <input type="month" value="${item.mes}" onchange="atualizarDado(${item.id}, 'mes', this.value)" class="text-xs font-semibold outline-none w-full bg-transparent">
+                        <div class="date-field-wrapper w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1">
+                            <input type="month" value="${item.mes}" onchange="atualizarDado(${item.id}, 'mes', this.value)" class="text-[10px] font-bold outline-none w-full bg-transparent dark:text-slate-300">
                             <i data-lucide="chevron-down" class="w-3 h-3 absolute right-2 text-slate-400 pointer-events-none"></i>
                         </div>
                     </td>
                     <td class="px-4 py-4">
                         <div class="flex items-center gap-2">
-                            <input type="text" value="${item.vindi}" onchange="atualizarDado(${item.id}, 'vindi', this.value)"
-                            placeholder="https://..." class="text-[10px] w-full bg-transparent border-b border-slate-100 focus:border-blue-300 outline-none">
-                            ${temLink ? `<a href="${item.vindi}" target="_blank" class="p-1.5 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200"><i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>` : ''}
+                            <input type="text" value="${item.vindi}" onchange="atualizarDado(${item.id}, 'vindi', this.value)" 
+                            placeholder="Link..." class="text-[10px] w-full bg-transparent border-b border-slate-100 dark:border-slate-800 focus:border-blue-300 outline-none">
+                            ${temLink ? `<a href="${item.vindi}" target="_blank" class="p-1.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg"><i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>` : ''}
                         </div>
                     </td>
                     <td class="px-4 py-4">
                         <div class="relative w-24 mx-auto">
                             <span class="absolute left-2 top-1.5 text-[10px] text-slate-400 font-bold">R$</span>
-                            <input type="number" value="${item.valorUnitario}" onchange="atualizarDado(${item.id}, 'valorUnitario', this.value)"
-                            class="w-full pl-7 py-1 bg-slate-100 rounded-md text-right font-bold">
+                            <input type="number" value="${item.valorUnitario}" onchange="atualizarDado(${item.id}, 'valorUnitario', this.value)" 
+                            class="w-full pl-7 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-right font-bold dark:text-white">
                         </div>
                     </td>
                     <td class="px-4 py-4 text-center">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" ${item.pago ? 'checked' : ''} onchange="atualizarDado(${item.id}, 'pago', this.checked)" class="sr-only peer">
-                            <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                            <div class="w-9 h-5 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
                         </label>
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <button onclick="excluirLinha(${item.id})" class="p-2 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all">
+                        <button onclick="excluirLinha(${item.id})" class="p-2 text-slate-300 hover:text-rose-500 rounded-lg transition-all">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                         </button>
                     </td>
@@ -289,7 +309,7 @@
             calcularTudo();
         }
 
-        carregarDadosIniciais();
+        window.onload = carregarDadosIniciais;
     </script>
 </body>
 </html>
