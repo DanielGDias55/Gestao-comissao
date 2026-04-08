@@ -13,7 +13,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; }
         
-        /* CORREÇÃO DO BUG DE CLIQUE NA DATA */
         .date-input-container {
             position: relative;
             display: flex;
@@ -21,7 +20,6 @@
             cursor: pointer;
         }
 
-        /* O input ocupa a caixa mas não vaza para fora */
         input[type="month"] {
             position: relative;
             background: transparent;
@@ -29,7 +27,6 @@
             cursor: pointer;
         }
 
-        /* Torna o seletor nativo clicável em toda a área do input, mas restrito a ele */
         input[type="month"]::-webkit-calendar-picker-indicator {
             position: absolute;
             top: 0;
@@ -263,10 +260,16 @@
             localStorage.setItem('dadosClientes', JSON.stringify(dados));
         }
 
+        // --- FUNÇÃO ATUALIZADA COM CONFIRMAÇÃO ---
         function excluirLinha(id) {
-            dados = dados.filter(d => d.id !== id);
-            renderizarTabela();
-            localStorage.setItem('dadosClientes', JSON.stringify(dados));
+            const item = dados.find(d => d.id === id);
+            const nomeCliente = item.cliente || "este cliente";
+            
+            if (confirm(`Tem certeza que deseja excluir o registro de "${nomeCliente}"?`)) {
+                dados = dados.filter(d => d.id !== id);
+                renderizarTabela();
+                localStorage.setItem('dadosClientes', JSON.stringify(dados));
+            }
         }
 
         function atualizarDado(id, campo, valor) {
