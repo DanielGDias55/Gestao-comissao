@@ -1,305 +1,305 @@
 <!DOCTYPE html>
 <html lang="pt-br" class="">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Financeiro - Cloud Pro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>tailwind.config = { darkMode: 'class' }</script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; }
-        .date-input-container { position: relative; display: flex; align-items: center; cursor: pointer; }
-        input[type="month"] { position: relative; background: transparent; z-index: 1; cursor: pointer; }
-        input[type="month"]::-webkit-calendar-picker-indicator { position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; padding: 0; opacity: 0; cursor: pointer; }
-        #sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; }
-        .sidebar-closed { transform: translateX(100%); }
-        .dark input { color-scheme: dark; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Financeiro - Cloud Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>tailwind.config = { darkMode: 'class' }</script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; }
+        .date-input-container { position: relative; display: flex; align-items: center; cursor: pointer; }
+        input[type="month"] { position: relative; background: transparent; z-index: 1; cursor: pointer; }
+        input[type="month"]::-webkit-calendar-picker-indicator { position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; padding: 0; opacity: 0; cursor: pointer; }
+        #sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; }
+        .sidebar-closed { transform: translateX(100%); }
+        .dark input { color-scheme: dark; }
+    </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 min-h-screen">
 
-    <div id="login-screen" class="fixed inset-0 bg-slate-900/95 z-[2000] flex items-center justify-center p-4 backdrop-blur-md">
-        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-800">
-            <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-blue-600 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg shadow-blue-500/40">
-                    <i data-lucide="lock" class="text-white w-8 h-8"></i>
-                </div>
-                <h2 class="text-2xl font-bold dark:text-white">Meu Financeiro</h2>
-                <p class="text-slate-500 text-sm">Acesse para sincronizar PC e Celular</p>
-            </div>
-            <div class="space-y-4">
-                <input type="email" id="login-email" placeholder="E-mail" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-blue-500">
-                <input type="password" id="login-pass" placeholder="Senha" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-blue-500">
-                <button onclick="handleAuth()" id="auth-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg">Entrar / Criar Conta</button>
-            </div>
-            <p id="auth-error" class="text-rose-500 text-xs mt-4 text-center hidden"></p>
-        </div>
-    </div>
+    <div id="login-screen" class="fixed inset-0 bg-slate-900/95 z-[2000] flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-800">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-blue-600 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg shadow-blue-500/40">
+                    <i data-lucide="lock" class="text-white w-8 h-8"></i>
+                </div>
+                <h2 class="text-2xl font-bold dark:text-white">Meu Financeiro</h2>
+                <p class="text-slate-500 text-sm">Acesse para sincronizar PC e Celular</p>
+            </div>
+            <div class="space-y-4">
+                <input type="email" id="login-email" placeholder="E-mail" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="password" id="login-pass" placeholder="Senha" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-blue-500">
+                <button onclick="handleAuth()" id="auth-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg">Entrar / Criar Conta</button>
+            </div>
+            <p id="auth-error" class="text-rose-500 text-xs mt-4 text-center hidden"></p>
+        </div>
+    </div>
 
-    <div id="app-content" class="hidden">
-        <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden" onclick="toggleSidebar()"></div>
-        
-        <aside id="sidebar" class="fixed right-0 top-0 h-full w-full sm:w-80 bg-white dark:bg-slate-900 shadow-2xl p-6 sidebar-closed border-l border-slate-200 dark:border-slate-800 overflow-y-auto">
-            <div class="flex items-center justify-between mb-8">
-                <h3 class="text-lg font-bold dark:text-white uppercase tracking-tighter">Ajustes Base</h3>
-                <button onclick="logout()" class="text-rose-500 text-[10px] font-black uppercase flex items-center gap-1 border border-rose-200 px-2 py-1 rounded-md hover:bg-rose-50">Sair</button>
-            </div>
-            
-            <div class="space-y-6">
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Salário Base</label>
-                    <input type="number" id="base-sal" oninput="atualizarCalculosAutomáticos()" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none">
-                </div>
-                
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Plano de Saúde</label>
-                    <input type="number" id="desc-saude" oninput="atualizarCalculosAutomáticos()" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none">
-                </div>
+    <div id="app-content" class="hidden">
+        <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden" onclick="toggleSidebar()"></div>
+        
+        <aside id="sidebar" class="fixed right-0 top-0 h-full w-full sm:w-80 bg-white dark:bg-slate-900 shadow-2xl p-6 sidebar-closed border-l border-slate-200 dark:border-slate-800 overflow-y-auto">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-lg font-bold dark:text-white uppercase tracking-tighter">Ajustes Base</h3>
+                <button onclick="logout()" class="text-rose-500 text-[10px] font-black uppercase flex items-center gap-1 border border-rose-200 px-2 py-1 rounded-md hover:bg-rose-50">Sair</button>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Salário Base</label>
+                    <input type="number" id="base-sal" oninput="atualizarCalculosAutomáticos()" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none">
+                </div>
+                
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Plano de Saúde</label>
+                    <input type="number" id="desc-saude" oninput="atualizarCalculosAutomáticos()" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none">
+                </div>
 
-                <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800/50">
-                    <div class="flex items-center justify-between mb-3 text-[10px] font-black text-blue-600 uppercase">
-                        <span>Vale Transporte</span><input type="checkbox" id="active-vt" onchange="atualizarCalculosAutomáticos()">
-                    </div>
-                    <div class="flex justify-between items-center text-xs">
-                        <div class="flex items-center gap-1">
-                            <input type="number" id="perc-vt" oninput="atualizarCalculosAutomáticos()" class="w-12 bg-white dark:bg-slate-900 border rounded p-1 text-center font-bold">%
-                        </div>
-                        <span id="val-vt-display" class="font-bold text-blue-600">R$ 0,00</span>
-                    </div>
-                </div>
+                <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800/50">
+                    <div class="flex items-center justify-between mb-3 text-[10px] font-black text-blue-600 uppercase">
+                        <span>Vale Transporte</span><input type="checkbox" id="active-vt" onchange="atualizarCalculosAutomáticos()">
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <div class="flex items-center gap-1">
+                            <input type="number" id="perc-vt" oninput="atualizarCalculosAutomáticos()" class="w-12 bg-white dark:bg-slate-900 border rounded p-1 text-center font-bold">%
+                        </div>
+                        <span id="val-vt-display" class="font-bold text-blue-600">R$ 0,00</span>
+                    </div>
+                </div>
 
-                <div class="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-800/50">
-                    <div class="flex items-center justify-between mb-3 text-[10px] font-black text-indigo-600 uppercase">
-                        <span>Adiantamento</span><input type="checkbox" id="active-adm" onchange="atualizarCalculosAutomáticos()">
-                    </div>
-                    <div class="flex justify-between items-center text-xs">
-                        <div class="flex items-center gap-1">
-                            <input type="number" id="perc-adm" oninput="atualizarCalculosAutomáticos()" class="w-12 bg-white dark:bg-slate-900 border rounded p-1 text-center font-bold">%
-                        </div>
-                        <span id="val-adm-display" class="font-bold text-indigo-600">R$ 0,00</span>
-                    </div>
-                </div>
-            </div>
-            <button onclick="toggleSidebar()" class="w-full mt-10 py-4 bg-slate-900 dark:bg-white text-white dark:text-black rounded-2xl font-bold shadow-lg">Fechar e Sincronizar</button>
-        </aside>
+                <div class="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-800/50">
+                    <div class="flex items-center justify-between mb-3 text-[10px] font-black text-indigo-600 uppercase">
+                        <span>Adiantamento</span><input type="checkbox" id="active-adm" onchange="atualizarCalculosAutomáticos()">
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <div class="flex items-center gap-1">
+                            <input type="number" id="perc-adm" oninput="atualizarCalculosAutomáticos()" class="w-12 bg-white dark:bg-slate-900 border rounded p-1 text-center font-bold">%
+                        </div>
+                        <span id="val-adm-display" class="font-bold text-indigo-600">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+            <button onclick="toggleSidebar()" class="w-full mt-10 py-4 bg-slate-900 dark:bg-white text-white dark:text-black rounded-2xl font-bold shadow-lg">Fechar e Sincronizar</button>
+        </aside>
 
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-            <header class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
-                <div class="text-center lg:text-left">
-                    <h1 class="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Financeiro Cloud</h1>
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest" id="user-display">Usuário Ativo</p>
-                </div>
-                <div class="flex flex-wrap justify-center items-center gap-3 bg-white dark:bg-slate-900 p-3 rounded-2xl border border-slate-200 dark:border-slate-800">
-                    <button onclick="toggleDarkMode()" class="p-2 text-slate-400 dark:text-amber-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all"><i data-lucide="sun"></i></button>
-                    <div class="flex border border-slate-100 dark:border-slate-800 rounded-xl px-2 bg-slate-50/50">
-                        <div class="date-input-container px-2 py-1.5"><input type="month" id="data-inicio" onchange="renderizarTabela()" class="text-[10px] font-bold w-20 outline-none uppercase bg-transparent"></div>
-                        <span class="text-slate-300 py-1.5">→</span>
-                        <div class="date-input-container px-2 py-1.5"><input type="month" id="data-fim" onchange="renderizarTabela()" class="text-[10px] font-bold w-20 outline-none uppercase bg-transparent text-right"></div>
-                    </div>
-                    <button onclick="novaLinha()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-emerald-200 dark:shadow-none transition-all"><i data-lucide="plus-circle"></i> Cliente</button>
-                </div>
-            </header>
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+            <header class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Financeiro Cloud</h1>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest" id="user-display">Usuário Ativo</p>
+                </div>
+                <div class="flex flex-wrap justify-center items-center gap-3 bg-white dark:bg-slate-900 p-3 rounded-2xl border border-slate-200 dark:border-slate-800">
+                    <button onclick="toggleDarkMode()" class="p-2 text-slate-400 dark:text-amber-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all"><i data-lucide="sun"></i></button>
+                    <div class="flex border border-slate-100 dark:border-slate-800 rounded-xl px-2 bg-slate-50/50">
+                        <div class="date-input-container px-2 py-1.5"><input type="month" id="data-inicio" onchange="renderizarTabela()" class="text-[10px] font-bold w-20 outline-none uppercase bg-transparent"></div>
+                        <span class="text-slate-300 py-1.5">→</span>
+                        <div class="date-input-container px-2 py-1.5"><input type="month" id="data-fim" onchange="renderizarTabela()" class="text-[10px] font-bold w-20 outline-none uppercase bg-transparent text-right"></div>
+                    </div>
+                    <button onclick="novaLinha()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-emerald-200 dark:shadow-none transition-all"><i data-lucide="plus-circle"></i> Cliente</button>
+                </div>
+            </header>
 
-            <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-10">
-                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border-l-4 border-blue-500 shadow-sm transition-transform hover:scale-105"><p class="text-[9px] font-black text-slate-400 uppercase">Bruto</p><p id="res-bruto" class="font-bold text-slate-800 dark:text-slate-100 leading-tight">R$ 0,00</p></div>
-                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border-l-4 border-amber-500 shadow-sm transition-transform hover:scale-105"><p class="text-[9px] font-black text-slate-400 uppercase">INSS</p><p id="res-inss" class="font-bold text-slate-800 dark:text-slate-100 leading-tight">R$ 0,00</p></div>
-                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border-l-4 border-rose-500 shadow-sm transition-transform hover:scale-105"><p class="text-[9px] font-black text-slate-400 uppercase">IRRF</p><p id="res-irrf" class="font-bold text-slate-800 dark:text-slate-100 leading-tight">R$ 0,00</p></div>
-                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border-l-4 border-indigo-500 shadow-sm transition-transform hover:scale-105"><p class="text-[9px] font-black text-slate-400 uppercase">Fixos</p><p id="res-descontos" class="font-bold text-slate-800 dark:text-slate-100 leading-tight">R$ 0,00</p></div>
-                <div class="col-span-2 lg:col-span-1 bg-emerald-600 p-4 rounded-2xl shadow-xl shadow-emerald-200 border border-emerald-500 transition-transform hover:scale-105"><p class="text-[9px] font-black text-emerald-100 uppercase">Líquido</p><p id="res-liquido" class="text-xl font-black text-white leading-tight">R$ 0,00</p></div>
-            </div>
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-10">
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border-l-4 border-blue-500 shadow-sm transition-transform hover:scale-105"><p class="text-[9px] font-black text-slate-400 uppercase">Bruto</p><p id="res-bruto" class="font-bold text-slate-800 dark:text-slate-100 leading-tight">R$ 0,00</p></div>
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border-l-4 border-amber-500 shadow-sm transition-transform hover:scale-105"><p class="text-[9px] font-black text-slate-400 uppercase">INSS</p><p id="res-inss" class="font-bold text-slate-800 dark:text-slate-100 leading-tight">R$ 0,00</p></div>
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border-l-4 border-rose-500 shadow-sm transition-transform hover:scale-105"><p class="text-[9px] font-black text-slate-400 uppercase">IRRF</p><p id="res-irrf" class="font-bold text-slate-800 dark:text-slate-100 leading-tight">R$ 0,00</p></div>
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border-l-4 border-indigo-500 shadow-sm transition-transform hover:scale-105"><p class="text-[9px] font-black text-slate-400 uppercase">Fixos</p><p id="res-descontos" class="font-bold text-slate-800 dark:text-slate-100 leading-tight">R$ 0,00</p></div>
+                <div class="col-span-2 lg:col-span-1 bg-emerald-600 p-4 rounded-2xl shadow-xl shadow-emerald-200 border border-emerald-500 transition-transform hover:scale-105"><p class="text-[9px] font-black text-emerald-100 uppercase">Líquido</p><p id="res-liquido" class="text-xl font-black text-white leading-tight">R$ 0,00</p></div>
+            </div>
 
-            <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hidden sm:block">
-                <table class="w-full text-left">
-                    <thead class="bg-slate-900 text-white uppercase text-[10px] font-bold tracking-widest"><tr><th class="px-6 py-4">Contrato</th><th class="text-center">Lic.</th><th class="text-center">Ref.</th><th>Vindi</th><th class="text-center">Comissão</th><th class="text-center">Status</th><th class="px-6"></th></tr></thead>
-                    <tbody id="corpo-tabela" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
-                </table>
-            </div>
-            <div id="mobile-lista" class="sm:hidden space-y-4"></div>
-        </main>
-        
-        <button onclick="toggleSidebar()" class="fixed bottom-6 right-6 w-14 h-14 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40 shadow-blue-500/20"><i data-lucide="settings"></i></button>
-    </div>
+            <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hidden sm:block">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-900 text-white uppercase text-[10px] font-bold tracking-widest"><tr><th class="px-6 py-4">Contrato</th><th class="text-center">Lic.</th><th class="text-center">Ref.</th><th>Vindi</th><th class="text-center">Comissão</th><th class="text-center">Status</th><th class="px-6"></th></tr></thead>
+                    <tbody id="corpo-tabela" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+                </table>
+            </div>
+            <div id="mobile-lista" class="sm:hidden space-y-4"></div>
+        </main>
+        
+        <button onclick="toggleSidebar()" class="fixed bottom-6 right-6 w-14 h-14 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40 shadow-blue-500/20"><i data-lucide="settings"></i></button>
+    </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, set, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAhGH_zr0zMBGuvd4Ggz9M8mlxbstKJuyI",
-            authDomain: "meufinanceiro-c6536.firebaseapp.com",
-            projectId: "meufinanceiro-c6536",
-            storageBucket: "meufinanceiro-c6536.firebasestorage.app",
-            messagingSenderId: "472630772518",
-            appId: "1:472630772518:web:d3f16146a4ce498e4f37e7"
-        };
+        const firebaseConfig = {
+            apiKey: "AIzaSyAhGH_zr0zMBGuvd4Ggz9M8mlxbstKJuyI",
+            authDomain: "meufinanceiro-c6536.firebaseapp.com",
+            projectId: "meufinanceiro-c6536",
+            storageBucket: "meufinanceiro-c6536.firebasestorage.app",
+            messagingSenderId: "472630772518",
+            appId: "1:472630772518:web:d3f16146a4ce498e4f37e7"
+        };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
-        let currentUser = null;
-        window.configs = { salBase: 2190.1, saude: 243.58, vtPerc: 6, vtActive: true, admPerc: 40, admActive: true };
-        window.dados = [];
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+        let currentUser = null;
+        window.configs = { salBase: 2190.1, saude: 243.58, vtPerc: 6, vtActive: true, admPerc: 40, admActive: true };
+        window.dados = [];
 
-        window.handleAuth = async () => {
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-pass').value;
-            const btn = document.getElementById('auth-btn');
-            const err = document.getElementById('auth-error');
-            try {
-                btn.innerText = "Conectando...";
-                await signInWithEmailAndPassword(auth, email, pass);
-            } catch (e) {
-                try {
-                    await createUserWithEmailAndPassword(auth, email, pass);
-                } catch (e2) {
-                    err.innerText = "Erro ao acessar. Verifique e-mail/senha.";
-                    err.classList.remove('hidden');
-                    btn.innerText = "Entrar / Criar Conta";
-                }
-            }
-        };
+        window.handleAuth = async () => {
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-pass').value;
+            const btn = document.getElementById('auth-btn');
+            const err = document.getElementById('auth-error');
+            try {
+                btn.innerText = "Conectando...";
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (e) {
+                try {
+                    await createUserWithEmailAndPassword(auth, email, pass);
+                } catch (e2) {
+                    err.innerText = "Erro ao acessar. Verifique e-mail/senha.";
+                    err.classList.remove('hidden');
+                    btn.innerText = "Entrar / Criar Conta";
+                }
+            }
+        };
 
-        window.logout = () => signOut(auth);
+        window.logout = () => signOut(auth);
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('user-display').innerText = user.email.split('@')[0];
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('app-content').classList.remove('hidden');
-                sync();
-            } else {
-                document.getElementById('login-screen').classList.remove('hidden');
-                document.getElementById('app-content').classList.add('hidden');
-            }
-        });
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('user-display').innerText = user.email.split('@')[0];
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('app-content').classList.remove('hidden');
+                sync();
+            } else {
+                document.getElementById('login-screen').classList.remove('hidden');
+                document.getElementById('app-content').classList.add('hidden');
+            }
+        });
 
-        function sync() {
-            // Sincroniza Configurações
-            onValue(ref(db, `users/${currentUser.uid}/configs`), (snap) => {
-                const c = snap.val();
-                if (c) {
-                    window.configs = c;
-                    document.getElementById('base-sal').value = c.salBase;
-                    document.getElementById('desc-saude').value = c.saude;
-                    document.getElementById('perc-vt').value = c.vtPerc;
-                    document.getElementById('active-vt').checked = c.vtActive;
-                    document.getElementById('perc-adm').value = c.admPerc;
-                    document.getElementById('active-adm').checked = c.admActive;
-                    atualizarCalculosAutomáticos(false); // Não salva de volta no trigger do Firebase
-                }
-            });
+        function sync() {
+            // Sincroniza Configurações
+            onValue(ref(db, `users/${currentUser.uid}/configs`), (snap) => {
+                const c = snap.val();
+                if (c) {
+                    window.configs = c;
+                    document.getElementById('base-sal').value = c.salBase;
+                    document.getElementById('desc-saude').value = c.saude;
+                    document.getElementById('perc-vt').value = c.vtPerc;
+                    document.getElementById('active-vt').checked = c.vtActive;
+                    document.getElementById('perc-adm').value = c.admPerc;
+                    document.getElementById('active-adm').checked = c.admActive;
+                    atualizarCalculosAutomáticos(false); // Não salva de volta no trigger do Firebase
+                }
+            });
 
-            // Sincroniza Clientes
-            onValue(ref(db, `users/${currentUser.uid}/clientes`), (snap) => {
-                window.dados = [];
-                const val = snap.val();
-                for (let id in val) { window.dados.push({ id, ...val[id] }); }
-                renderizarTabela();
-            });
-        }
+            // Sincroniza Clientes
+            onValue(ref(db, `users/${currentUser.uid}/clientes`), (snap) => {
+                window.dados = [];
+                const val = snap.val();
+                for (let id in val) { window.dados.push({ id, ...val[id] }); }
+                renderizarTabela();
+            });
+        }
 
-        window.atualizarCalculosAutomáticos = (deveSalvar = true) => {
-            const base = parseFloat(document.getElementById('base-sal').value) || 0;
-            const saude = parseFloat(document.getElementById('desc-saude').value) || 0;
-            const pVT = parseFloat(document.getElementById('perc-vt').value) || 0;
-            const pAdm = parseFloat(document.getElementById('perc-adm').value) || 0;
-            const vtAtivo = document.getElementById('active-vt').checked;
-            const admAtivo = document.getElementById('active-adm').checked;
-            
-            document.getElementById('val-vt-display').innerText = (vtAtivo ? base * (pVT/100) : 0).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            document.getElementById('val-adm-display').innerText = (admAtivo ? base * (pAdm/100) : 0).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            
-            window.configs = { salBase: base, saude: saude, vtPerc: pVT, vtActive: vtAtivo, admPerc: pAdm, admActive: admAtivo };
-            
-            if (deveSalvar && currentUser) {
-                set(ref(db, `users/${currentUser.uid}/configs`), window.configs);
-            }
-            calcularTudo();
-        };
+        window.atualizarCalculosAutomáticos = (deveSalvar = true) => {
+            const base = parseFloat(document.getElementById('base-sal').value) || 0;
+            const saude = parseFloat(document.getElementById('desc-saude').value) || 0;
+            const pVT = parseFloat(document.getElementById('perc-vt').value) || 0;
+            const pAdm = parseFloat(document.getElementById('perc-adm').value) || 0;
+            const vtAtivo = document.getElementById('active-vt').checked;
+            const admAtivo = document.getElementById('active-adm').checked;
+            
+            document.getElementById('val-vt-display').innerText = (vtAtivo ? base * (pVT/100) : 0).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
+            document.getElementById('val-adm-display').innerText = (admAtivo ? base * (pAdm/100) : 0).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
+            
+            window.configs = { salBase: base, saude: saude, vtPerc: pVT, vtActive: vtAtivo, admPerc: pAdm, admActive: admAtivo };
+            
+            if (deveSalvar && currentUser) {
+                set(ref(db, `users/${currentUser.uid}/configs`), window.configs);
+            }
+            calcularTudo();
+        };
 
-        window.novaLinha = () => {
-            const novo = { cliente: "", licencas: 1, mes: new Date().toISOString().slice(0, 7), vindi: "", valorUnitario: 40.0, pago: false };
-            push(ref(db, `users/${currentUser.uid}/clientes`), novo);
-        };
+        window.novaLinha = () => {
+            const novo = { cliente: "", licencas: 1, mes: new Date().toISOString().slice(0, 7), vindi: "", valorUnitario: 40.0, pago: false };
+            push(ref(db, `users/${currentUser.uid}/clientes`), novo);
+        };
 
-        window.excluirLinha = (id) => {
-            if(confirm("Deseja apagar este contrato?")) remove(ref(db, `users/${currentUser.uid}/clientes/${id}`));
-        };
+        window.excluirLinha = (id) => {
+            if(confirm("Deseja apagar este contrato?")) remove(ref(db, `users/${currentUser.uid}/clientes/${id}`));
+        };
 
-        window.atualizarDado = (id, campo, valor) => {
-            const up = {};
-            up[campo] = (['licencas', 'valorUnitario'].includes(campo)) ? parseFloat(valor) : valor;
-            update(ref(db, `users/${currentUser.uid}/clientes/${id}`), up);
-        };
+        window.atualizarDado = (id, campo, valor) => {
+            const up = {};
+            up[campo] = (['licencas', 'valorUnitario'].includes(campo)) ? parseFloat(valor) : valor;
+            update(ref(db, `users/${currentUser.uid}/clientes/${id}`), up);
+        };
 
-        window.toggleDarkMode = () => {
-            const d = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', d ? 'dark' : 'light');
-            lucide.createIcons();
-        };
+        window.toggleDarkMode = () => {
+            const d = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', d ? 'dark' : 'light');
+            lucide.createIcons();
+        };
 
-        window.toggleSidebar = () => {
-            document.getElementById('sidebar').classList.toggle('sidebar-closed');
-            document.getElementById('sidebar-overlay').classList.toggle('hidden');
-        };
+        window.toggleSidebar = () => {
+            document.getElementById('sidebar').classList.toggle('sidebar-closed');
+            document.getElementById('sidebar-overlay').classList.toggle('hidden');
+        };
 
-        window.renderizarTabela = () => {
-            const dI = document.getElementById('data-inicio').value;
-            const dF = document.getElementById('data-fim').value;
-            const corpo = document.getElementById('corpo-tabela');
-            const mobile = document.getElementById('mobile-lista');
-            corpo.innerHTML = ""; mobile.innerHTML = "";
-            
-            const filtrados = window.dados.filter(i => (!dI || i.mes >= dI) && (!dF || i.mes <= dF)).sort((a,b)=>a.mes.localeCompare(b.mes));
+        window.renderizarTabela = () => {
+            const dI = document.getElementById('data-inicio').value;
+            const dF = document.getElementById('data-fim').value;
+            const corpo = document.getElementById('corpo-tabela');
+            const mobile = document.getElementById('mobile-lista');
+            corpo.innerHTML = ""; mobile.innerHTML = "";
+            
+            const filtrados = window.dados.filter(i => (!dI || i.mes >= dI) && (!dF || i.mes <= dF)).sort((a,b)=>a.mes.localeCompare(b.mes));
 
-            filtrados.forEach(i => {
-                const tr = document.createElement('tr'); tr.className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors";
-                tr.innerHTML = `<td class="px-6 py-4"><input type="text" value="${i.cliente}" onchange="atualizarDado('${i.id}', 'cliente', this.value)" class="w-full bg-transparent outline-none font-bold"></td>
-                <td class="text-center font-bold"><input type="number" value="${i.licencas}" onchange="atualizarDado('${i.id}', 'licencas', this.value)" class="w-10 bg-slate-100 dark:bg-slate-800 rounded text-center"></td>
-                <td class="text-center font-bold uppercase text-[9px]"><div class="date-input-container w-24 mx-auto bg-slate-50 dark:bg-slate-800 rounded px-1 py-1"><input type="month" value="${i.mes}" onchange="atualizarDado('${i.id}', 'mes', this.value)" class="bg-transparent w-full outline-none"></div></td>
-                <td><div class="flex items-center gap-2 px-2"><input type="text" value="${i.vindi}" onchange="atualizarDado('${i.id}', 'vindi', this.value)" class="text-[10px] bg-transparent border-b border-slate-100 w-full outline-none" placeholder="Vindi...">${i.vindi.startsWith('http') ? `<a href="${i.vindi}" target="_blank" class="text-blue-500"><i data-lucide="external-link" class="w-3 h-3"></i></a>`:''}</div></td>
-                <td class="text-center font-black"><div class="flex items-center justify-center gap-1 text-xs"><span class="text-slate-400">R$</span><input type="number" value="${i.valorUnitario}" onchange="atualizarDado('${i.id}', 'valorUnitario', this.value)" class="w-12 bg-transparent outline-none"></div></td>
-                <td class="text-center"><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" ${i.pago ? 'checked' : ''} onchange="atualizarDado('${i.id}', 'pago', this.checked)" class="sr-only peer"><div class="w-8 h-4 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div></label></td>
-                <td class="px-6 text-right"><button onclick="excluirLinha('${i.id}')" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>`;
-                corpo.appendChild(tr);
+            filtrados.forEach(i => {
+                const tr = document.createElement('tr'); tr.className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors";
+                tr.innerHTML = `<td class="px-6 py-4"><input type="text" value="${i.cliente}" onchange="atualizarDado('${i.id}', 'cliente', this.value)" class="w-full bg-transparent outline-none font-bold"></td>
+                <td class="text-center font-bold"><input type="number" value="${i.licencas}" onchange="atualizarDado('${i.id}', 'licencas', this.value)" class="w-10 bg-slate-100 dark:bg-slate-800 rounded text-center"></td>
+                <td class="text-center font-bold uppercase text-[9px]"><div class="date-input-container w-24 mx-auto bg-slate-50 dark:bg-slate-800 rounded px-1 py-1"><input type="month" value="${i.mes}" onchange="atualizarDado('${i.id}', 'mes', this.value)" class="bg-transparent w-full outline-none"></div></td>
+                <td><div class="flex items-center gap-2 px-2"><input type="text" value="${i.vindi}" onchange="atualizarDado('${i.id}', 'vindi', this.value)" class="text-[10px] bg-transparent border-b border-slate-100 w-full outline-none" placeholder="Vindi...">${i.vindi.startsWith('http') ? `<a href="${i.vindi}" target="_blank" class="text-blue-500"><i data-lucide="external-link" class="w-3 h-3"></i></a>`:''}</div></td>
+                <td class="text-center font-black"><div class="flex items-center justify-center gap-1 text-xs"><span class="text-slate-400">R$</span><input type="number" value="${i.valorUnitario}" onchange="atualizarDado('${i.id}', 'valorUnitario', this.value)" class="w-12 bg-transparent outline-none"></div></td>
+                <td class="text-center"><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" ${i.pago ? 'checked' : ''} onchange="atualizarDado('${i.id}', 'pago', this.checked)" class="sr-only peer"><div class="w-8 h-4 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div></label></td>
+                <td class="px-6 text-right"><button onclick="excluirLinha('${i.id}')" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>`;
+                corpo.appendChild(tr);
 
-                const card = document.createElement('div'); card.className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-3";
-                card.innerHTML = `<div class="flex justify-between font-black uppercase text-xs tracking-tight"> <input type="text" value="${i.cliente}" onchange="atualizarDado('${i.id}', 'cliente', this.value)" class="bg-transparent outline-none flex-1"> <button onclick="excluirLinha('${i.id}')"><i data-lucide="trash-2" class="w-4 h-4 text-slate-300"></i></button> </div>
-                <div class="grid grid-cols-2 gap-2 text-xs"> <div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-xl"> <p class="text-[8px] font-black text-slate-400 uppercase mb-1 tracking-widest">Licenças</p> <input type="number" value="${i.licencas}" onchange="atualizarDado('${i.id}', 'licencas', this.value)" class="font-bold bg-transparent"> </div> <div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-xl"> <p class="text-[8px] font-black text-slate-400 uppercase mb-1 tracking-widest">Mês</p> <input type="month" value="${i.mes}" onchange="atualizarDado('${i.id}', 'mes', this.value)" class="font-bold bg-transparent w-full"> </div> </div>
-                <div class="flex justify-between items-center pt-2"> <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" ${i.pago ? 'checked' : ''} onchange="atualizarDado('${i.id}', 'pago', this.checked)" class="sr-only peer"><div class="w-8 h-4 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div><span class="ml-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">${i.pago?'Pago':'Pendente'}</span></label> ${i.vindi.startsWith('http') ? `<a href="${i.vindi}" target="_blank" class="text-[9px] font-black text-blue-500 bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-lg border border-blue-100">VINDI</a>` : ''} </div>`;
-                mobile.appendChild(card);
-            });
-            lucide.createIcons();
-            calcularTudo();
-        };
+                const card = document.createElement('div'); card.className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-3";
+                card.innerHTML = `<div class="flex justify-between font-black uppercase text-xs tracking-tight"> <input type="text" value="${i.cliente}" onchange="atualizarDado('${i.id}', 'cliente', this.value)" class="bg-transparent outline-none flex-1"> <button onclick="excluirLinha('${i.id}')"><i data-lucide="trash-2" class="w-4 h-4 text-slate-300"></i></button> </div>
+                <div class="grid grid-cols-2 gap-2 text-xs"> <div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-xl"> <p class="text-[8px] font-black text-slate-400 uppercase mb-1 tracking-widest">Licenças</p> <input type="number" value="${i.licencas}" onchange="atualizarDado('${i.id}', 'licencas', this.value)" class="font-bold bg-transparent"> </div> <div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-xl"> <p class="text-[8px] font-black text-slate-400 uppercase mb-1 tracking-widest">Mês</p> <input type="month" value="${i.mes}" onchange="atualizarDado('${i.id}', 'mes', this.value)" class="font-bold bg-transparent w-full"> </div> </div>
+                <div class="flex justify-between items-center pt-2"> <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" ${i.pago ? 'checked' : ''} onchange="atualizarDado('${i.id}', 'pago', this.checked)" class="sr-only peer"><div class="w-8 h-4 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div><span class="ml-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">${i.pago?'Pago':'Pendente'}</span></label> ${i.vindi.startsWith('http') ? `<a href="${i.vindi}" target="_blank" class="text-[9px] font-black text-blue-500 bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-lg border border-blue-100">VINDI</a>` : ''} </div>`;
+                mobile.appendChild(card);
+            });
+            lucide.createIcons();
+            calcularTudo();
+        };
 
-        window.calcularTudo = () => {
-            const dI = document.getElementById('data-inicio').value;
-            const dF = document.getElementById('data-fim').value;
-            let total = 0;
-            window.dados.forEach(i => {
-                if(i.pago && (!dI || i.mes >= dI) && (!dF || i.mes <= dF)) total += (i.licencas * i.valorUnitario);
-            });
-            const c = window.configs;
-            let bruto = c.salBase + total;
-            let inss = bruto <= 1620 ? bruto*0.075 : bruto <= 2850 ? 121.5+(bruto-1620)*0.09 : bruto <= 4200 ? 121.5+110.7+(bruto-2850)*0.12 : bruto <= 8500 ? 121.5+110.7+162+(bruto-4200)*0.14 : 995.5;
-            let bI = bruto - inss;
-            let ir = bI <= 5000 ? 0 : bI <= 5500 ? (bI*0.225-675.49)*0.5 : bI <= 6500 ? bI*0.225-675.49 : bI*0.275-908.73;
-            let fixos = c.saude + (c.vtActive ? c.salBase*(c.vtPerc/100) : 0) + (c.admActive ? c.salBase*(c.admPerc/100) : 0);
-            
-            document.getElementById('res-bruto').innerText = bruto.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            document.getElementById('res-inss').innerText = inss.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            document.getElementById('res-irrf').innerText = ir.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            document.getElementById('res-descontos').innerText = fixos.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            document.getElementById('res-liquido').innerText = (bruto - inss - ir - fixos).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-        };
+        window.calcularTudo = () => {
+            const dI = document.getElementById('data-inicio').value;
+            const dF = document.getElementById('data-fim').value;
+            let total = 0;
+            window.dados.forEach(i => {
+                if(i.pago && (!dI || i.mes >= dI) && (!dF || i.mes <= dF)) total += (i.licencas * i.valorUnitario);
+            });
+            const c = window.configs;
+            let bruto = c.salBase + total;
+            let inss = bruto <= 1620 ? bruto*0.075 : bruto <= 2850 ? 121.5+(bruto-1620)*0.09 : bruto <= 4200 ? 121.5+110.7+(bruto-2850)*0.12 : bruto <= 8500 ? 121.5+110.7+162+(bruto-4200)*0.14 : 995.5;
+            let bI = bruto - inss;
+            let ir = bI <= 5000 ? 0 : bI <= 5500 ? (bI*0.225-675.49)*0.5 : bI <= 6500 ? bI*0.225-675.49 : bI*0.275-908.73;
+            let fixos = c.saude + (c.vtActive ? c.salBase*(c.vtPerc/100) : 0) + (c.admActive ? c.salBase*(c.admPerc/100) : 0);
+            
+            document.getElementById('res-bruto').innerText = bruto.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
+            document.getElementById('res-inss').innerText = inss.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
+            document.getElementById('res-irrf').innerText = ir.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
+            document.getElementById('res-descontos').innerText = fixos.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
+            document.getElementById('res-liquido').innerText = (bruto - inss - ir - fixos).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
+        };
 
-        if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark');
-        lucide.createIcons();
-    </script>
+        if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark');
+        lucide.createIcons();
+    </script>
 </body>
 </html>
