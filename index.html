@@ -48,6 +48,11 @@
             </div>
             
             <div class="space-y-6">
+                <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-800/50">
+                    <label class="block text-[10px] font-black uppercase text-emerald-600 mb-1">Comissão Padrão (R$)</label>
+                    <input type="number" id="comissao-padrao" oninput="atualizarCalculosAutomáticos()" class="w-full px-4 py-2 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700 rounded-lg outline-none font-bold">
+                </div>
+
                 <div>
                     <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Salário Base</label>
                     <input type="number" id="base-sal" oninput="atualizarCalculosAutomáticos()" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none">
@@ -140,7 +145,8 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
         let currentUser = null;
-        window.configs = { salBase: 2190.1, saude: 243.58, vtPerc: 6, vtActive: true, admPerc: 40, admActive: true };
+        // Adicionado comissaoPadrao nas configs iniciais
+        window.configs = { salBase: 2190.1, saude: 243.58, vtPerc: 6, vtActive: true, admPerc: 40, admActive: true, comissaoPadrao: 40.0 };
         window.dados = [];
 
         window.handleAuth = async () => {
@@ -178,7 +184,6 @@
         });
 
         function sync() {
-            // Sincroniza Configurações
             onValue(ref(db, `users/${currentUser.uid}/configs`), (snap) => {
                 const c = snap.val();
                 if (c) {
@@ -189,11 +194,12 @@
                     document.getElementById('active-vt').checked = c.vtActive;
                     document.getElementById('perc-adm').value = c.admPerc;
                     document.getElementById('active-adm').checked = c.admActive;
-                    atualizarCalculosAutomáticos(false); // Não salva de volta no trigger do Firebase
+                    // Carrega a comissão padrão salva
+                    document.getElementById('comissao-padrao').value = c.comissaoPadrao || 40;
+                    atualizarCalculosAutomáticos(false);
                 }
             });
 
-            // Sincroniza Clientes
             onValue(ref(db, `users/${currentUser.uid}/clientes`), (snap) => {
                 window.dados = [];
                 const val = snap.val();
@@ -207,13 +213,14 @@
             const saude = parseFloat(document.getElementById('desc-saude').value) || 0;
             const pVT = parseFloat(document.getElementById('perc-vt').value) || 0;
             const pAdm = parseFloat(document.getElementById('perc-adm').value) || 0;
+            const cPadrao = parseFloat(document.getElementById('comissao-padrao').value) || 0; // Pega o novo valor
             const vtAtivo = document.getElementById('active-vt').checked;
             const admAtivo = document.getElementById('active-adm').checked;
             
             document.getElementById('val-vt-display').innerText = (vtAtivo ? base * (pVT/100) : 0).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
             document.getElementById('val-adm-display').innerText = (admAtivo ? base * (pAdm/100) : 0).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
             
-            window.configs = { salBase: base, saude: saude, vtPerc: pVT, vtActive: vtAtivo, admPerc: pAdm, admActive: admAtivo };
+            window.configs = { salBase: base, saude: saude, vtPerc: pVT, vtActive: vtAtivo, admPerc: pAdm, admActive: admAtivo, comissaoPadrao: cPadrao };
             
             if (deveSalvar && currentUser) {
                 set(ref(db, `users/${currentUser.uid}/configs`), window.configs);
@@ -222,7 +229,16 @@
         };
 
         window.novaLinha = () => {
-            const novo = { cliente: "", licencas: 1, mes: new Date().toISOString().slice(0, 7), vindi: "", valorUnitario: 40.0, pago: false };
+            // Agora usa o valor que estiver em window.configs.comissaoPadrao
+            const valorPadrao = window.configs.comissaoPadrao || 40.0;
+            const novo = { 
+                cliente: "", 
+                licencas: 1, 
+                mes: new Date().toISOString().slice(0, 7), 
+                vindi: "", 
+                valorUnitario: valorPadrao, 
+                pago: false 
+            };
             push(ref(db, `users/${currentUser.uid}/clientes`), novo);
         };
 
