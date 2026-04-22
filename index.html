@@ -82,8 +82,8 @@
 
         /* Date Inputs Customization */
         .date-input-container { position: relative; display: flex; align-items: center; cursor: pointer; }
-        input[type="month"] { position: relative; background: transparent; z-index: 1; cursor: pointer; color: inherit; }
-        input[type="month"]::-webkit-calendar-picker-indicator { position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; padding: 0; opacity: 0; cursor: pointer; }
+        input[type="month"], input[type="date"] { position: relative; background: transparent; z-index: 1; cursor: pointer; color: inherit; }
+        input[type="month"]::-webkit-calendar-picker-indicator, input[type="date"]::-webkit-calendar-picker-indicator { position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; padding: 0; opacity: 0; cursor: pointer; }
         .dark input { color-scheme: dark; }
 
         /* Sidebar Transition */
@@ -99,7 +99,6 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 min-h-screen antialiased selection:bg-brand-500 selection:text-white pb-20">
 
-    <!-- Tela de Login -->
     <div id="login-screen" class="fixed inset-0 bg-slate-100/60 dark:bg-slate-950/80 z-[2000] flex items-center justify-center p-4 backdrop-blur-xl transition-opacity duration-500">
         <div class="glass-panel p-10 rounded-[3rem] w-full max-w-md shadow-2xl">
             <div class="text-center mb-10">
@@ -151,12 +150,9 @@
         </div>
     </div>
 
-    <!-- Conteúdo do App -->
     <div id="app-content" class="hidden">
-        <!-- Overlay da Sidebar -->
         <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/20 dark:bg-slate-950/60 backdrop-blur-sm z-40 hidden transition-opacity" onclick="toggleSidebar()"></div>
 
-        <!-- Sidebar / Gaveta de Configurações -->
         <aside id="sidebar" class="fixed right-0 top-0 h-full w-full sm:w-[400px] glass-panel shadow-2xl p-8 sidebar-closed overflow-y-auto">
             <div class="flex items-center justify-between mb-10 mt-2">
                 <div>
@@ -169,7 +165,6 @@
             </div>
 
             <div class="space-y-6">
-                <!-- Comissão Padrão -->
                 <div class="bg-white/60 dark:bg-slate-900/60 p-5 rounded-[2rem] border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
                     <label class="block text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Comissão Base (R$)</label>
                     <div class="relative">
@@ -178,7 +173,6 @@
                     </div>
                 </div>
 
-                <!-- Fixos -->
                 <div class="bg-white/60 dark:bg-slate-900/60 p-5 rounded-[2rem] border border-slate-200/50 dark:border-slate-800/50 shadow-sm space-y-4">
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Salário Base Mensal</label>
@@ -203,9 +197,7 @@
                     </div>
                 </div>
 
-                <!-- Variáveis -->
                 <div class="grid grid-cols-2 gap-4">
-                    <!-- Vale Transporte -->
                     <div class="bg-brand-50/50 dark:bg-brand-900/10 p-5 rounded-[2rem] border border-brand-100 dark:border-brand-800/30">
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-[10px] font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Vale Transp.</span>
@@ -218,7 +210,6 @@
                         <p id="val-vt-display" class="font-extrabold text-brand-600 dark:text-brand-400 text-center text-sm">R$ 0,00</p>
                     </div>
 
-                    <!-- Adiantamento -->
                     <div class="bg-amber-50/50 dark:bg-amber-900/10 p-5 rounded-[2rem] border border-amber-100 dark:border-amber-800/30">
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-[10px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">Adiantamento</span>
@@ -238,10 +229,8 @@
             </button>
         </aside>
 
-        <!-- Main Workspace -->
         <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
             
-            <!-- Floating Header -->
             <header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                 <div>
                     <div class="flex items-center gap-3 mb-2">
@@ -267,9 +256,7 @@
                     </div>
                 </div>
 
-                <!-- Ações Rápidas -->
                 <div class="flex flex-wrap items-center gap-3 glass-card p-2 rounded-[2rem]">
-                    <!-- Theme Toggle -->
                     <button onclick="toggleDarkMode()" class="p-3 text-slate-400 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors active:scale-95">
                         <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
                         <i data-lucide="sun" class="w-5 h-5 hidden dark:block text-amber-400"></i>
@@ -277,7 +264,6 @@
                     
                     <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
 
-                    <!-- Ferramentas CSV -->
                     <div class="flex items-center gap-1">
                         <button onclick="baixarModeloCSV()" class="p-2 text-slate-400 hover:text-brand-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors active:scale-95" title="Baixar Modelo de Planilha">
                             <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
@@ -293,7 +279,15 @@
 
                     <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
 
-                    <!-- Filtro de Data -->
+                    <div class="flex items-center bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 px-3 py-1 mr-1">
+                        <select id="filtro-status" onchange="renderizarTabela()" class="bg-transparent text-xs font-bold outline-none text-slate-600 dark:text-slate-300 cursor-pointer h-8">
+                            <option value="todos" class="text-slate-800">Todos Status</option>
+                            <option value="pago" class="text-slate-800">Pagos</option>
+                            <option value="em-dia" class="text-slate-800">Em Dia</option>
+                            <option value="atrasado" class="text-slate-800">Atrasados</option>
+                        </select>
+                    </div>
+
                     <div class="flex items-center bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 px-1 py-1">
                         <div class="date-input-container px-3 py-2 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors">
                             <i data-lucide="calendar" class="w-4 h-4 text-slate-400 mr-2"></i>
@@ -305,7 +299,6 @@
                         </div>
                     </div>
 
-                    <!-- Botão Novo -->
                     <button onclick="novaLinha()" class="bg-brand-600 hover:bg-brand-500 text-white px-5 py-3 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-brand-500/30 active:scale-95 transition-all ml-1">
                         <i data-lucide="plus" class="w-5 h-5"></i> 
                         <span class="hidden sm:inline">Adicionar</span>
@@ -313,29 +306,23 @@
                 </div>
             </header>
 
-            <!-- Dashboard de Cards (KPIs) -->
             <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-12">
-                <!-- Bruto -->
                 <div class="glass-card p-6 rounded-[2rem] border-t-4 border-brand-500 hover:-translate-y-1 transition-transform duration-300">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Rendimento Bruto</p>
                     <p id="res-bruto" class="text-xl font-black text-brand-600 dark:text-brand-400 tracking-tight">R$ 0,00</p>
                 </div>
-                <!-- INSS -->
                 <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Dedução INSS</p>
                     <p id="res-inss" class="text-xl font-black text-amber-500 dark:text-amber-400 tracking-tight">R$ 0,00</p>
                 </div>
-                <!-- IRRF -->
                 <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Dedução IRRF</p>
                     <p id="res-irrf" class="text-xl font-black text-rose-500 dark:text-rose-400 tracking-tight">R$ 0,00</p>
                 </div>
-                <!-- Fixos -->
                 <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Descontos Fixos</p>
                     <p id="res-descontos" class="text-xl font-black text-slate-600 dark:text-slate-300 tracking-tight">R$ 0,00</p>
                 </div>
-                <!-- Líquido -->
                 <div class="col-span-2 lg:col-span-1 bg-gradient-to-br from-emerald-400 to-emerald-600 p-6 rounded-[2rem] shadow-xl shadow-emerald-500/30 text-white hover:-translate-y-1 transition-transform duration-300 flex flex-col justify-center relative overflow-hidden">
                     <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
                     <p class="text-[10px] font-bold text-emerald-100 uppercase tracking-widest mb-1 relative z-10">Total Líquido</p>
@@ -343,7 +330,6 @@
                 </div>
             </div>
 
-            <!-- Tabela Principal Desktop -->
             <div class="glass-card rounded-[2rem] overflow-hidden hidden sm:block mb-10">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left whitespace-nowrap">
@@ -352,19 +338,19 @@
                                 <th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">Contrato / Cliente</th>
                                 <th class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Licenças</th>
                                 <th class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Ref. (Mês)</th>
+                                <th class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Vencimento</th>
                                 <th class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Tipo</th>
                                 <th class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">ID Vindi</th>
                                 <th class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-right">Comissão (Un.)</th>
-                                <th class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Status</th>
+                                <th class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Situação</th>
+                                <th class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Recebido?</th>
                                 <th class="px-6 py-5"></th>
                             </tr>
                         </thead>
                         <tbody id="corpo-tabela" class="divide-y divide-slate-100/50 dark:divide-slate-800/50">
-                            <!-- Gerado via JS -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
-                <!-- Empty State escondido via JS se houver itens -->
                 <div id="empty-state" class="hidden py-16 text-center">
                     <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i data-lucide="inbox" class="w-8 h-8 text-slate-400"></i>
@@ -373,19 +359,15 @@
                 </div>
             </div>
 
-            <!-- Mobile List -->
             <div id="mobile-lista" class="sm:hidden space-y-4 mb-20">
-                <!-- Gerado via JS -->
-            </div>
+                </div>
         </main>
 
-        <!-- Botão Flutuante (Ajustes) -->
         <button onclick="toggleSidebar()" class="fixed bottom-6 right-6 w-16 h-16 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-[2rem] shadow-2xl shadow-slate-900/20 dark:shadow-white/20 flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-40 group">
             <i data-lucide="sliders-horizontal" class="w-6 h-6 group-hover:rotate-90 transition-transform duration-300"></i>
         </button>
     </div>
 
-    <!-- Sistema de Notificações (Toast Premium) -->
     <div id="toast-container" class="fixed top-6 right-6 z-[3000] flex flex-col gap-3 pointer-events-none"></div>
 
     <script type="module">
@@ -429,10 +411,10 @@
             }, 4000);
         };
 
-        // CSV: Baixar Modelo
+        // CSV: Baixar Modelo (Atualizado para Vencimento)
         window.baixarModeloCSV = () => {
-            const cabecalho = "cliente,licencas,mes,tipo,vindi,valorUnitario,pago\n";
-            const exemplo = "Exemplo Corp,5,2026-04,venda,https://vindi.com/123,40.00,false\n";
+            const cabecalho = "cliente,licencas,mes,vencimento,tipo,vindi,valorUnitario,pago\n";
+            const exemplo = "Exemplo Corp,5,2026-04,2026-04-15,venda,https://vindi.com/123,40.00,false\n";
             const blob = new Blob([cabecalho + exemplo], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
@@ -443,23 +425,36 @@
             window.showToast('Modelo baixado com sucesso!');
         };
 
-        // CSV: Exportar Dados (Respeita o Filtro de Data)
+        // CSV: Exportar Dados (Atualizado para Vencimento)
         window.exportarCSV = () => {
             if(window.dados.length === 0) return window.showToast("Nenhum dado para exportar.", "error");
             
-            let csv = "cliente,licencas,mes,tipo,vindi,valorUnitario,pago\n";
+            let csv = "cliente,licencas,mes,vencimento,tipo,vindi,valorUnitario,pago\n";
             const dI = document.getElementById('data-inicio').value;
             const dF = document.getElementById('data-fim').value;
+            const filtroStatus = document.getElementById('filtro-status').value;
+            const hoje = new Date().toISOString().slice(0, 10);
             
-            // Filtra os dados visualizados atualmente
-            const filtrados = window.dados.filter(i => (!dI || i.mes >= dI) && (!dF || i.mes <= dF));
+            // Aplica os mesmos filtros ativos na tela
+            const filtrados = window.dados.filter(i => {
+                const dateMatch = (!dI || i.mes >= dI) && (!dF || i.mes <= dF);
+                if (!dateMatch) return false;
+                
+                let s = 'em-dia';
+                if (i.pago) s = 'pago';
+                else if (i.vencimento && i.vencimento < hoje) s = 'atrasado';
+                
+                if (filtroStatus !== 'todos' && s !== filtroStatus) return false;
+                return true;
+            });
             
-            if(filtrados.length === 0) return window.showToast("Nenhum dado no período filtrado.", "error");
+            if(filtrados.length === 0) return window.showToast("Nenhum dado no período/filtro atual.", "error");
 
             filtrados.forEach(i => {
                 const cli = i.cliente ? i.cliente.replace(/,/g, ' ') : ''; 
                 const vin = i.vindi ? i.vindi.replace(/,/g, '') : '';
-                csv += `"${cli}",${i.licencas},${i.mes},${i.tipo},"${vin}",${i.valorUnitario},${i.pago}\n`;
+                const venc = i.vencimento || '';
+                csv += `"${cli}",${i.licencas},${i.mes},${venc},${i.tipo},"${vin}",${i.valorUnitario},${i.pago}\n`;
             });
 
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -472,7 +467,7 @@
             window.showToast('Dados exportados com sucesso!');
         };
 
-        // CSV: Importar Dados
+        // CSV: Importar Dados (Atualizado para ler Vencimento se existir)
         window.processarImportacaoCSV = (event) => {
             const file = event.target.files[0];
             if (!file) return;
@@ -489,26 +484,30 @@
                     const line = linesArr[i].trim();
                     if (!line) continue;
 
-                    // Regex para separar por vírgulas, ignorando as que estão dentro de aspas duplas
                     const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
                     const cols = line.split(regex).map(col => col.replace(/^"|"$/g, '').trim());
 
                     if (cols.length >= 7) {
+                        // Lida com planilhas antigas e novas dinamicamente
+                        const hasVencimento = cols.length >= 8;
+                        const idxTipo = hasVencimento ? 4 : 3;
+
                         const novo = {
                             cliente: cols[0] || "Importado",
                             licencas: parseInt(cols[1]) || 1,
                             mes: cols[2] || new Date().toISOString().slice(0, 7),
-                            tipo: cols[3] && cols[3].toLowerCase() === 'estorno' ? 'estorno' : 'venda',
-                            vindi: cols[4] || "",
-                            valorUnitario: parseFloat(cols[5]) || window.configs.comissaoPadrao || 40.0,
-                            pago: cols[6] === 'true' || cols[6] === '1' || cols[6].toLowerCase() === 'sim' || cols[6].toLowerCase() === 'pago'
+                            vencimento: hasVencimento ? (cols[3] || "") : "",
+                            tipo: cols[idxTipo] && cols[idxTipo].toLowerCase() === 'estorno' ? 'estorno' : 'venda',
+                            vindi: cols[idxTipo+1] || "",
+                            valorUnitario: parseFloat(cols[idxTipo+2]) || window.configs.comissaoPadrao || 40.0,
+                            pago: cols[idxTipo+3] === 'true' || cols[idxTipo+3] === '1' || cols[idxTipo+3].toLowerCase() === 'sim' || cols[idxTipo+3].toLowerCase() === 'pago'
                         };
                         push(ref(db, `users/${currentUser.uid}/clientes`), novo);
                         count++;
                     }
                 }
                 window.showToast(`${count} registros importados e sincronizados!`);
-                event.target.value = ''; // Reseta o input de arquivo
+                event.target.value = ''; 
             };
             reader.readAsText(file);
         };
@@ -527,9 +526,7 @@
         };
 
         window.handleEnter = (e) => {
-            if (e.key === 'Enter') {
-                window.handleLogin();
-            }
+            if (e.key === 'Enter') window.handleLogin();
         };
 
         const setLoading = (btnId, text, isLoading) => {
@@ -583,13 +580,9 @@
                 err.classList.add('hidden');
                 await createUserWithEmailAndPassword(auth, email, pass);
             } catch (e) {
-                if(e.code === 'auth/email-already-in-use') {
-                    err.innerText = "Este e-mail já está em uso.";
-                } else if(e.code === 'auth/weak-password') {
-                    err.innerText = "A senha deve ter pelo menos 6 caracteres.";
-                } else {
-                    err.innerText = "Erro ao criar conta. Verifique os dados.";
-                }
+                if(e.code === 'auth/email-already-in-use') err.innerText = "Este e-mail já está em uso.";
+                else if(e.code === 'auth/weak-password') err.innerText = "A senha deve ter pelo menos 6 caracteres.";
+                else err.innerText = "Erro ao criar conta. Verifique os dados.";
                 err.classList.remove('hidden');
                 setLoading('signup-btn', '', false);
             }
@@ -617,7 +610,6 @@
                 currentUser = user;
                 document.getElementById('user-display').innerText = user.email.split('@')[0];
                 
-                // Animação de saída do login
                 const loginScreen = document.getElementById('login-screen');
                 loginScreen.classList.add('opacity-0');
                 setTimeout(() => {
@@ -680,12 +672,14 @@
             calcularTudo();
         };
 
+        // Atualizado com campo 'vencimento'
         window.novaLinha = () => {
             const valorPadrao = window.configs.comissaoPadrao || 40.0;
             const novo = {
                 cliente: "",
                 licencas: 1,
                 mes: new Date().toISOString().slice(0, 7),
+                vencimento: "", // NOVO
                 tipo: "venda",
                 vindi: "",
                 valorUnitario: valorPadrao,
@@ -715,16 +709,34 @@
             document.getElementById('sidebar-overlay').classList.toggle('hidden');
         };
 
+        // Renderização principal com Filtros de Status e Badge Dinâmica
         window.renderizarTabela = () => {
             const dI = document.getElementById('data-inicio').value;
             const dF = document.getElementById('data-fim').value;
+            const filtroStatus = document.getElementById('filtro-status').value;
+            const hoje = new Date().toISOString().slice(0, 10);
+
             const corpo = document.getElementById('corpo-tabela');
             const mobile = document.getElementById('mobile-lista');
             const emptyState = document.getElementById('empty-state');
             
             corpo.innerHTML = ""; mobile.innerHTML = "";
 
-            const filtrados = window.dados.filter(i => (!dI || i.mes >= dI) && (!dF || i.mes <= dF)).sort((a,b)=>a.mes.localeCompare(b.mes));
+            // Filtro Principal (Data + Status)
+            const filtrados = window.dados.filter(i => {
+                // Checa datas
+                const dateMatch = (!dI || i.mes >= dI) && (!dF || i.mes <= dF);
+                if (!dateMatch) return false;
+
+                // Checa Status (Pago vs Atrasado vs Em Dia)
+                let statusCalc = 'em-dia';
+                if (i.pago) statusCalc = 'pago';
+                else if (i.vencimento && i.vencimento < hoje) statusCalc = 'atrasado';
+
+                if (filtroStatus !== 'todos' && statusCalc !== filtroStatus) return false;
+
+                return true;
+            }).sort((a,b)=>a.mes.localeCompare(b.mes));
 
             if(filtrados.length === 0) {
                 if(emptyState) emptyState.classList.remove('hidden');
@@ -733,6 +745,18 @@
             }
 
             filtrados.forEach(i => {
+                // Cálculo visual do Status
+                let badgeClass = 'bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20';
+                let badgeText = 'Em Dia';
+                
+                if (i.pago) {
+                    badgeClass = 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20';
+                    badgeText = 'Pago';
+                } else if (i.vencimento && i.vencimento < hoje) {
+                    badgeClass = 'bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20';
+                    badgeText = 'Atrasado';
+                }
+
                 // DESKTOP ROW
                 const tr = document.createElement('tr'); 
                 tr.className=`group hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors ${i.tipo === 'estorno' ? 'bg-rose-50/20 dark:bg-rose-900/5' : ''}`;
@@ -746,6 +770,11 @@
                 <td class="px-4 py-3 text-center">
                     <div class="date-input-container w-[110px] mx-auto stealth-input px-2 py-2 rounded-xl">
                         <input type="month" value="${i.mes}" onchange="atualizarDado('${i.id}', 'mes', this.value)" class="w-full bg-transparent outline-none font-bold text-[11px] uppercase text-center text-slate-600 dark:text-slate-300">
+                    </div>
+                </td>
+                <td class="px-4 py-3 text-center">
+                    <div class="date-input-container w-[110px] mx-auto stealth-input px-2 py-2 rounded-xl">
+                        <input type="date" value="${i.vencimento || ''}" onchange="atualizarDado('${i.id}', 'vencimento', this.value)" class="w-full bg-transparent outline-none font-bold text-[11px] uppercase text-center text-slate-600 dark:text-slate-300">
                     </div>
                 </td>
                 <td class="px-4 py-3 text-center">
@@ -767,6 +796,11 @@
                     </div>
                 </td>
                 <td class="px-4 py-3 text-center">
+                    <span class="px-2 py-1 rounded-lg border text-[10px] font-bold uppercase tracking-widest ${badgeClass}">
+                        ${badgeText}
+                    </span>
+                </td>
+                <td class="px-4 py-3 text-center">
                     <label class="relative inline-flex items-center cursor-pointer group-hover:scale-105 transition-transform">
                         <input type="checkbox" ${i.pago ? 'checked' : ''} onchange="atualizarDado('${i.id}', 'pago', this.checked)" class="sr-only peer">
                         <div class="w-11 h-6 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 shadow-inner"></div>
@@ -784,21 +818,31 @@
                 card.className=`glass-card p-5 rounded-[2rem] space-y-4 relative overflow-hidden ${i.tipo === 'estorno' ? 'border-rose-200/50 dark:border-rose-900/50 bg-rose-50/10' : ''}`;
                 card.innerHTML = `
                 ${i.pago ? '<div class="absolute top-0 right-0 w-16 h-16 bg-emerald-500/10 rounded-bl-[3rem] -z-10"></div>' : ''}
-                <div class="flex justify-between items-start gap-4"> 
+                
+                <div class="flex justify-between items-start gap-4 mb-2"> 
                     <input type="text" value="${i.cliente}" placeholder="Cliente..." onchange="atualizarDado('${i.id}', 'cliente', this.value)" class="bg-transparent outline-none flex-1 font-extrabold text-lg text-slate-900 dark:text-white border-b border-transparent focus:border-brand-500 transition-colors"> 
+                    <span class="px-2 py-1 rounded-lg border text-[9px] font-bold uppercase tracking-widest ${badgeClass} shrink-0 mt-1">${badgeText}</span>
                     <button onclick="excluirLinha('${i.id}')" class="p-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-slate-400 hover:text-rose-500 active:scale-95 transition-all">
                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                     </button> 
                 </div>
                 
-                <div class="grid grid-cols-2 gap-3"> 
-                    <div class="bg-slate-50/50 dark:bg-slate-900/50 p-3 rounded-2xl border border-slate-100 dark:border-slate-800"> 
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Licenças</p> 
-                        <input type="number" value="${i.licencas}" onchange="atualizarDado('${i.id}', 'licencas', this.value)" class="w-full font-black bg-transparent outline-none text-slate-800 dark:text-slate-200"> 
+                <div class="grid grid-cols-3 gap-2"> 
+                    <div class="bg-slate-50/50 dark:bg-slate-900/50 p-2 rounded-2xl border border-slate-100 dark:border-slate-800 text-center"> 
+                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">Licenças</p> 
+                        <input type="number" value="${i.licencas}" onchange="atualizarDado('${i.id}', 'licencas', this.value)" class="w-full font-black text-center bg-transparent outline-none text-slate-800 dark:text-slate-200"> 
                     </div> 
-                    <div class="bg-slate-50/50 dark:bg-slate-900/50 p-3 rounded-2xl border border-slate-100 dark:border-slate-800"> 
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Mês Ref.</p> 
-                        <input type="month" value="${i.mes}" onchange="atualizarDado('${i.id}', 'mes', this.value)" class="w-full font-black text-xs uppercase bg-transparent outline-none text-slate-800 dark:text-slate-200"> 
+                    <div class="bg-slate-50/50 dark:bg-slate-900/50 p-2 rounded-2xl border border-slate-100 dark:border-slate-800 text-center"> 
+                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">Mês Ref.</p> 
+                        <div class="date-input-container mx-auto">
+                            <input type="month" value="${i.mes}" onchange="atualizarDado('${i.id}', 'mes', this.value)" class="w-full font-black text-[10px] text-center uppercase bg-transparent outline-none text-slate-800 dark:text-slate-200"> 
+                        </div>
+                    </div> 
+                    <div class="bg-slate-50/50 dark:bg-slate-900/50 p-2 rounded-2xl border border-slate-100 dark:border-slate-800 text-center"> 
+                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">Vencimento</p> 
+                        <div class="date-input-container mx-auto">
+                            <input type="date" value="${i.vencimento || ''}" onchange="atualizarDado('${i.id}', 'vencimento', this.value)" class="w-full font-black text-[10px] text-center uppercase bg-transparent outline-none text-slate-800 dark:text-slate-200"> 
+                        </div>
                     </div> 
                 </div>
 
@@ -817,36 +861,40 @@
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" ${i.pago ? 'checked' : ''} onchange="atualizarDado('${i.id}', 'pago', this.checked)" class="sr-only peer">
                         <div class="w-11 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 shadow-inner"></div>
-                        <span class="ml-3 text-[10px] font-bold uppercase tracking-widest ${i.pago ? 'text-emerald-500' : 'text-slate-400'}">${i.pago ? 'Processado' : 'Pendente'}</span>
+                        <span class="ml-3 text-[10px] font-bold uppercase tracking-widest ${i.pago ? 'text-emerald-500' : 'text-slate-400'}">${i.pago ? 'Processado' : 'Marcar Recebido'}</span>
                     </label> 
                     ${i.vindi.startsWith('http') ? `<a href="${i.vindi}" target="_blank" class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-500/10 px-3 py-2 rounded-xl transition-colors"><i data-lucide="link" class="w-3 h-3"></i> Vindi</a>` : ''} 
                 </div>`;
                 mobile.appendChild(card);
             });
             lucide.createIcons();
-            calcularTudo();
+            calcularTudo(); // Re-calcula os KPI's apenas com o que está na tela (filtrado)
         };
 
         window.calcularTudo = () => {
             const dI = document.getElementById('data-inicio').value;
             const dF = document.getElementById('data-fim').value;
+            const filtroStatus = document.getElementById('filtro-status').value;
+            const hoje = new Date().toISOString().slice(0, 10);
+
             let total = 0;
             let totalLicencasVenda = 0;
             let totalLicencasEstorno = 0;
             
             window.dados.forEach(i => {
-                if((!dI || i.mes >= dI) && (!dF || i.mes <= dF)) {
+                const dateMatch = (!dI || i.mes >= dI) && (!dF || i.mes <= dF);
+                let statusCalc = 'em-dia';
+                if (i.pago) statusCalc = 'pago';
+                else if (i.vencimento && i.vencimento < hoje) statusCalc = 'atrasado';
+                const statusMatch = (filtroStatus === 'todos' || statusCalc === filtroStatus);
+
+                if(dateMatch && statusMatch) {
                     if (i.tipo === 'estorno') {
                         totalLicencasEstorno += parseInt(i.licencas) || 0;
-                        if(i.pago) {
-                            total -= (i.licencas * i.valorUnitario); // Estorno subtrai
-                        }
+                        if(i.pago) total -= (i.licencas * i.valorUnitario); 
                     } else {
-                        // Trata registros antigos sem 'tipo' e novos como 'venda'
                         totalLicencasVenda += parseInt(i.licencas) || 0;
-                        if(i.pago) {
-                            total += (i.licencas * i.valorUnitario); // Venda soma
-                        }
+                        if(i.pago) total += (i.licencas * i.valorUnitario); 
                     }
                 }
             });
