@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaaS Financeiro - Cloud Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Atualizado para o UMD minificado oficial de produção para garantir compatibilidade global -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script>
         tailwind.config = { 
@@ -154,7 +153,7 @@
 
     <!-- Conteúdo do App -->
     <div id="app-content" class="hidden">
-        <!-- Overlay da Sidebar -->
+        <!-- Overlay da Sidebar e Modais -->
         <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/20 dark:bg-slate-950/60 backdrop-blur-sm z-40 hidden transition-opacity" onclick="toggleSidebar()"></div>
 
         <!-- Sidebar / Gaveta de Configurações -->
@@ -239,8 +238,84 @@
             </button>
         </aside>
 
+        <!-- NOVO: MODAL DE ADIÇÃO DE CONTRATO -->
+        <div id="modal-novo" class="fixed inset-0 bg-slate-900/40 dark:bg-slate-950/80 backdrop-blur-sm z-[2500] hidden items-center justify-center p-4">
+            <div class="glass-card w-full max-w-lg rounded-[2.5rem] p-8 shadow-2xl relative border border-slate-200 dark:border-slate-700">
+                <!-- Botão Fechar -->
+                <button onclick="fecharModalNovo()" class="absolute top-6 right-6 p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+
+                <div class="mb-8">
+                    <div class="w-12 h-12 bg-brand-50 dark:bg-brand-500/10 rounded-2xl flex items-center justify-center mb-4 text-brand-600 dark:text-brand-400">
+                        <i data-lucide="file-plus-2" class="w-6 h-6"></i>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Novo Contrato</h2>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">Detalhes da Operação</p>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Nome do Cliente -->
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Cliente / Contrato *</label>
+                        <div class="relative">
+                            <i data-lucide="user" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                            <input type="text" id="novo-cliente" placeholder="Ex: Acme Corp" class="w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-brand-500 font-medium transition-all dark:text-white">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Licenças -->
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Licenças *</label>
+                            <div class="relative">
+                                <i data-lucide="layers" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                                <input type="number" id="novo-licencas" value="1" min="1" class="w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-brand-500 font-bold transition-all dark:text-white text-center">
+                            </div>
+                        </div>
+                        
+                        <!-- Vencimento -->
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Vencimento</label>
+                            <div class="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl transition-all focus-within:ring-2 focus-within:ring-brand-500">
+                                <i data-lucide="calendar-days" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                                <input type="date" id="novo-vencimento" class="w-full pl-11 pr-4 py-3 bg-transparent outline-none font-bold text-xs uppercase text-slate-600 dark:text-slate-300">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tipo e Vindi -->
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Tipo</label>
+                            <select id="novo-tipo" class="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-brand-500 font-bold text-xs uppercase tracking-widest text-brand-600 dark:text-brand-400 transition-all appearance-none cursor-pointer">
+                                <option value="venda">Venda</option>
+                                <option value="estorno" class="text-rose-500">Estorno</option>
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">ID Vindi / Link</label>
+                            <div class="relative">
+                                <i data-lucide="link" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                                <input type="text" id="novo-vindi" placeholder="Opcional" class="w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-brand-500 font-medium transition-all text-xs dark:text-white">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex gap-3">
+                    <button onclick="fecharModalNovo()" class="flex-1 px-6 py-4 rounded-2xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+                        Cancelar
+                    </button>
+                    <button onclick="salvarNovoContrato()" class="flex-[2] px-6 py-4 rounded-2xl font-bold bg-brand-600 hover:bg-brand-500 text-white shadow-lg shadow-brand-500/30 transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="check" class="w-5 h-5"></i> Cadastrar
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Workspace -->
-        <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 relative z-10">
             
             <!-- Floating Header -->
             <header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 relative z-[60]">
@@ -297,10 +372,7 @@
 
                     <!-- Filtro de Status Customizado -->
                     <div class="relative" id="status-dropdown-container">
-                        <!-- Input oculto para guardar o valor do filtro -->
                         <input type="hidden" id="filtro-status" value="todos">
-
-                        <!-- Botão Acionador -->
                         <button type="button" onclick="toggleMenuStatus()" class="flex items-center bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 px-3 py-1 hover:border-brand-500 dark:hover:border-brand-500 transition-colors group h-[40px] min-w-[150px] justify-between">
                             <div class="flex items-center">
                                 <i data-lucide="filter" class="w-4 h-4 text-brand-500 mr-2 group-hover:scale-110 transition-transform"></i>
@@ -309,7 +381,6 @@
                             <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 ml-2"></i>
                         </button>
 
-                        <!-- Menu Dropdown -->
                         <div id="menu-status" class="hidden absolute left-0 top-full mt-2 w-40 glass-card rounded-2xl p-2 z-[100] shadow-2xl border border-slate-200 dark:border-slate-700 text-left">
                             <button onclick="setStatusFiltro('todos', 'Todos Status')" class="w-full text-left px-3 py-2 text-[11px] font-bold uppercase tracking-widest rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white transition-colors mb-1">
                                 Todos Status
@@ -328,7 +399,7 @@
 
                     <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
 
-                    <!-- Filtro de Ciclo (Mês) e Rolagem de Pendentes -->
+                    <!-- Filtro de Ciclo (Mês) e Rolagem -->
                     <div class="flex items-center bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 px-1 py-1 hover:border-brand-500 dark:hover:border-brand-500 transition-colors group h-[40px]">
                         <div class="date-input-container px-3 py-2 hover:bg-slate-200/50 dark:hover:bg-slate-700/50 rounded-xl transition-colors" title="Ciclo Atual">
                             <i data-lucide="calendar" class="w-4 h-4 text-brand-500 mr-2 group-hover:scale-110 transition-transform"></i>
@@ -340,8 +411,8 @@
                         </button>
                     </div>
 
-                    <!-- Botão Novo -->
-                    <button onclick="novaLinha()" class="bg-brand-600 hover:bg-brand-500 text-white px-5 py-3 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-brand-500/30 active:scale-95 transition-all ml-1">
+                    <!-- NOVO: Botão Abre Modal -->
+                    <button onclick="abrirModalNovo()" class="bg-brand-600 hover:bg-brand-500 text-white px-5 py-3 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-brand-500/30 active:scale-95 transition-all ml-1">
                         <i data-lucide="plus" class="w-5 h-5"></i> 
                         <span class="hidden sm:inline">Adicionar</span>
                     </button>
@@ -386,7 +457,7 @@
                             <tr class="bg-slate-50/50 dark:bg-slate-900/50 border-b border-slate-200/50 dark:border-slate-800/50">
                                 <th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 rounded-tl-[2rem]">Contrato / Cliente</th>
                                 <th id="th-licencas" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Licenças</th>
-                                <th id="th-mes" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Ref. (Mês)</th>
+                                <th id="th-mes" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Ref. (Ciclo)</th>
                                 <th id="th-vencimento" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Vencimento</th>
                                 <th id="th-tipo" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Tipo</th>
                                 <th id="th-vindi" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">ID Vindi</th>
@@ -411,12 +482,12 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Empty State escondido via JS se houver itens -->
+                <!-- Empty State -->
                 <div id="empty-state" class="hidden py-16 text-center">
                     <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i data-lucide="inbox" class="w-8 h-8 text-slate-400"></i>
                     </div>
-                    <p class="text-slate-500 dark:text-slate-400 font-medium">Nenhum contrato neste período.</p>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium">Nenhum contrato neste ciclo.</p>
                 </div>
             </div>
 
@@ -457,7 +528,6 @@
         window.configs = { salBase: 2190.1, saude: 243.58, vtPerc: 6, vtActive: true, admPerc: 40, admActive: true, comissaoPadrao: 40.0, outrosGastos: 0 };
         window.dados = [];
 
-        // Função segura e controlada para instanciar/atualizar os ícones do Lucide
         window.updateIcons = () => {
             if (typeof lucide !== 'undefined' && lucide.createIcons) {
                 lucide.createIcons();
@@ -466,14 +536,13 @@
             }
         };
 
-        // UI: Sistema de Toast
         window.showToast = (msg, type = 'success') => {
             const t = document.createElement('div');
             const isSuccess = type === 'success';
             t.className = `p-4 rounded-2xl glass-card flex items-center gap-3 shadow-xl transform transition-transform duration-300 translate-x-[120%] border-l-4 ${isSuccess ? 'border-emerald-500 text-slate-800 dark:text-white' : 'border-rose-500 text-rose-500'} pointer-events-auto`;
             t.innerHTML = `<i data-lucide="${isSuccess ? 'check-circle' : 'alert-circle'}" class="w-5 h-5 ${isSuccess ? 'text-emerald-500' : 'text-rose-500'}"></i><p class="text-sm font-bold">${msg}</p>`;
             document.getElementById('toast-container').appendChild(t);
-            window.updateIcons(); // Alterado para a função segura
+            window.updateIcons(); 
 
             requestAnimationFrame(() => requestAnimationFrame(() => t.classList.remove('translate-x-[120%]')));
             setTimeout(() => {
@@ -487,16 +556,15 @@
         ========================================= */
         window.colunasDefinicao = [
             { id: 'licencas', label: 'Licenças' },
-            { id: 'mes', label: 'Ref. (Mês)' },
+            { id: 'mes', label: 'Ref. (Ciclo)' },
             { id: 'vencimento', label: 'Vencimento' },
             { id: 'tipo', label: 'Tipo' },
-            { id: 'vindi', label: 'ID Vindi' },
+            { id: 'vindi', label: 'Link do Cliente' },
             { id: 'comissao', label: 'Comissão (Un.)' },
             { id: 'situacao', label: 'Situação' },
             { id: 'recebido', label: 'Recebido?' }
         ];
 
-        // Carrega do LocalStorage ou define todas visíveis por padrão
         window.colunasVisible = JSON.parse(localStorage.getItem('colunasVisibleFinanceiro')) || {
             licencas: true, mes: true, vencimento: true, tipo: true, vindi: true, comissao: true, situacao: true, recebido: true
         };
@@ -506,13 +574,11 @@
             menu.classList.toggle('hidden');
         };
 
-        // Novo: Toggle para o menu de Status
         window.toggleMenuStatus = () => {
             const menu = document.getElementById('menu-status');
             menu.classList.toggle('hidden');
         };
 
-        // Novo: Função que define o status escolhido e recarrega a tabela
         window.setStatusFiltro = (valor, label) => {
             document.getElementById('filtro-status').value = valor;
             document.getElementById('filtro-status-label').innerText = label;
@@ -520,16 +586,13 @@
             window.renderizarTabela();
         };
 
-        // Atualizado: Fecha os menus se clicar fora deles
         document.addEventListener('click', (e) => {
-            // Dropdown de Colunas
             const colContainer = document.getElementById('colunas-dropdown-container');
             const colMenu = document.getElementById('menu-colunas');
             if (colContainer && colMenu && !colContainer.contains(e.target) && !colMenu.classList.contains('hidden')) {
                 colMenu.classList.add('hidden');
             }
 
-            // Dropdown de Status
             const statusContainer = document.getElementById('status-dropdown-container');
             const statusMenu = document.getElementById('menu-status');
             if (statusContainer && statusMenu && !statusContainer.contains(e.target) && !statusMenu.classList.contains('hidden')) {
@@ -554,17 +617,15 @@
         window.toggleVisibilidadeColuna = (id, isVisible) => {
             window.colunasVisible[id] = isVisible;
             localStorage.setItem('colunasVisibleFinanceiro', JSON.stringify(window.colunasVisible));
-            window.renderizarTabela(); // Recarrega a tabela para aplicar classes hidden
+            window.renderizarTabela(); 
         };
 
-        // Helper para aplicar as classes na geração da tabela
         const getColClass = (colId, baseClasses) => {
             return window.colunasVisible[colId] ? baseClasses : `${baseClasses} hidden`;
         };
 
         /* ========================================= */
 
-        // CSV: Baixar Modelo
         window.baixarModeloCSV = () => {
             const cabecalho = "cliente,licencas,mes,vencimento,tipo,vindi,valorUnitario,pago\n";
             const exemplo = "Exemplo Corp,5,2026-04,2026-04-15,venda,https://vindi.com/123,40.00,false\n";
@@ -578,7 +639,6 @@
             window.showToast('Modelo baixado com sucesso!');
         };
 
-        // CSV: Exportar Dados
         window.exportarCSV = () => {
             if(window.dados.length === 0) return window.showToast("Nenhum dado para exportar.", "error");
             
@@ -618,7 +678,6 @@
             window.showToast('Dados exportados com sucesso!');
         };
 
-        // CSV: Importar Dados
         window.processarImportacaoCSV = (event) => {
             const file = event.target.files[0];
             if (!file) return;
@@ -672,7 +731,7 @@
                 passInput.type = 'password';
                 eyeIcon.setAttribute('data-lucide', 'eye');
             }
-            window.updateIcons(); // Alterado para a função segura
+            window.updateIcons(); 
         };
 
         window.handleEnter = (e) => {
@@ -685,10 +744,10 @@
             if (isLoading) {
                 btn.dataset.original = btn.innerHTML;
                 btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> ${text}`;
-                window.updateIcons(); // Alterado para a função segura
+                window.updateIcons(); 
             } else {
                 btn.innerHTML = btn.dataset.original;
-                window.updateIcons(); // Alterado para a função segura
+                window.updateIcons(); 
             }
         };
 
@@ -760,7 +819,6 @@
                 currentUser = user;
                 document.getElementById('user-display').innerText = user.email.split('@')[0];
                 
-                // Define o ciclo atual como o mês corrente ao logar
                 if (!document.getElementById('filtro-mes').value) {
                     document.getElementById('filtro-mes').value = new Date().toISOString().slice(0, 7);
                 }
@@ -770,10 +828,10 @@
                 setTimeout(() => {
                     loginScreen.classList.add('hidden');
                     document.getElementById('app-content').classList.remove('hidden');
-                    window.updateIcons(); // Alterado para a função segura
+                    window.updateIcons(); 
                 }, 400);
 
-                window.renderizarOpcoesColunas(); // Inicializa menu de colunas
+                window.renderizarOpcoesColunas(); 
                 sync();
             } else {
                 document.getElementById('login-screen').classList.remove('hidden');
@@ -828,21 +886,58 @@
             calcularTudo();
         };
 
-        window.novaLinha = () => {
+        /* =========================================
+           SISTEMA DE MODAL PARA NOVO CONTRATO
+        ========================================= */
+        window.abrirModalNovo = () => {
+            // Limpa os campos antes de abrir
+            document.getElementById('novo-cliente').value = '';
+            document.getElementById('novo-licencas').value = '1';
+            document.getElementById('novo-vencimento').value = '';
+            document.getElementById('novo-tipo').value = 'venda';
+            document.getElementById('novo-vindi').value = '';
+            
+            const modal = document.getElementById('modal-novo');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        window.fecharModalNovo = () => {
+            const modal = document.getElementById('modal-novo');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        window.salvarNovoContrato = () => {
+            const cliente = document.getElementById('novo-cliente').value.trim();
+            const licencas = parseInt(document.getElementById('novo-licencas').value) || 1;
+            const vencimento = document.getElementById('novo-vencimento').value;
+            const tipo = document.getElementById('novo-tipo').value;
+            const vindi = document.getElementById('novo-vindi').value.trim();
+            
+            if (!cliente) {
+                return window.showToast('O nome do cliente é obrigatório!', 'error');
+            }
+
             const valorPadrao = window.configs.comissaoPadrao || 40.0;
-            const fMes = document.getElementById('filtro-mes').value || new Date().toISOString().slice(0, 7);
+            const cicloAtual = document.getElementById('filtro-mes').value || new Date().toISOString().slice(0, 7);
+            
             const novo = {
-                cliente: "",
-                licencas: 1,
-                mes: fMes, 
-                vencimento: "", 
-                tipo: "venda",
-                vindi: "",
+                cliente: cliente,
+                licencas: licencas,
+                mes: cicloAtual, 
+                vencimento: vencimento, 
+                tipo: tipo,
+                vindi: vindi,
                 valorUnitario: valorPadrao,
                 pago: false
             };
+            
             push(ref(db, `users/${currentUser.uid}/clientes`), novo);
+            window.showToast('Contrato adicionado com sucesso!');
+            fecharModalNovo();
         };
+        /* ========================================= */
 
         window.excluirLinha = (id) => {
             if(confirm("Deseja realmente remover este contrato?")) remove(ref(db, `users/${currentUser.uid}/clientes/${id}`));
@@ -857,7 +952,7 @@
         window.toggleDarkMode = () => {
             const d = document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', d ? 'dark' : 'light');
-            window.updateIcons(); // Alterado para a função segura
+            window.updateIcons(); 
         };
 
         window.toggleSidebar = () => {
@@ -865,14 +960,12 @@
             document.getElementById('sidebar-overlay').classList.toggle('hidden');
         };
 
-        // Função para trazer pendentes do passado para o ciclo atual
         window.importarPendentes = () => {
             const cicloAtual = document.getElementById('filtro-mes').value;
             if (!cicloAtual) return window.showToast('Selecione um ciclo para importar.', 'error');
             
             let count = 0;
             window.dados.forEach(i => {
-                // Se não está pago, é de um mês anterior e não é um estorno
                 if (!i.pago && i.mes < cicloAtual && i.tipo !== 'estorno') {
                     window.atualizarDado(i.id, 'mes', cicloAtual);
                     count++;
@@ -886,7 +979,6 @@
             }
         };
 
-        // Renderização principal
         window.renderizarTabela = () => {
             const fMes = document.getElementById('filtro-mes').value;
             const filtroStatus = document.getElementById('filtro-status').value;
@@ -896,7 +988,6 @@
             const mobile = document.getElementById('mobile-lista');
             const emptyState = document.getElementById('empty-state');
             
-            // Oculta/Exibe os cabeçalhos TH dinamicamente
             window.colunasDefinicao.forEach(col => {
                 const th = document.getElementById(`th-${col.id}`);
                 if(th) {
@@ -907,7 +998,6 @@
             
             corpo.innerHTML = ""; mobile.innerHTML = "";
 
-            // Filtro Principal (Data + Status)
             const filtrados = window.dados.filter(i => {
                 const dateMatch = (!fMes || i.mes === fMes);
                 if (!dateMatch) return false;
@@ -919,7 +1009,7 @@
                 if (filtroStatus !== 'todos' && statusCalc !== filtroStatus) return false;
 
                 return true;
-            }).sort((a,b)=>a.mes.localeCompare(b.mes));
+            }).sort((a,b) => a.cliente.localeCompare(b.cliente)); // Ordena alfabeticamente agora
 
             if(filtrados.length === 0) {
                 if(emptyState) emptyState.classList.remove('hidden');
@@ -1049,7 +1139,7 @@
                 </div>`;
                 mobile.appendChild(card);
             });
-            window.updateIcons(); // Alterado para a função segura
+            window.updateIcons(); 
             calcularTudo(); 
         };
 
@@ -1103,7 +1193,7 @@
         } else {
             document.documentElement.classList.remove('dark');
         }
-        window.updateIcons(); // Alterado para a função segura
+        window.updateIcons(); 
     </script>
 </body>
 </html>
