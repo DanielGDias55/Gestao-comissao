@@ -288,11 +288,18 @@
                     <div class="grid grid-cols-3 gap-4">
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Tipo</label>
-                            <select id="novo-tipo" class="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-brand-500 font-bold text-xs uppercase tracking-widest text-brand-600 dark:text-brand-400 transition-all appearance-none cursor-pointer">
-                                <option value="venda">Venda</option>
-                                <option value="aditivo" class="text-blue-500">Aditivo</option>
-                                <option value="estorno" class="text-rose-500">Estorno</option>
-                            </select>
+                            <div class="relative" id="novo-tipo-container">
+                                <input type="hidden" id="novo-tipo" value="venda">
+                                <button type="button" onclick="toggleNovoTipoMenu(event)" class="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl outline-none focus:ring-2 focus:ring-brand-500 font-bold text-xs uppercase tracking-widest text-brand-600 dark:text-brand-400 transition-all cursor-pointer">
+                                    <span id="novo-tipo-label">Venda</span>
+                                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                                </button>
+                                <div id="novo-tipo-menu" class="hidden absolute left-0 top-full mt-2 w-full glass-card rounded-2xl p-2 z-[100] shadow-2xl border border-slate-200 dark:border-slate-700 text-left">
+                                    <button onclick="setNovoTipo('venda', 'Venda', 'text-brand-600 dark:text-brand-400')" class="w-full text-left px-3 py-2 text-[11px] font-bold uppercase tracking-widest rounded-xl text-brand-600 dark:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition-colors mb-1">Venda</button>
+                                    <button onclick="setNovoTipo('aditivo', 'Aditivo', 'text-blue-600 dark:text-blue-400')" class="w-full text-left px-3 py-2 text-[11px] font-bold uppercase tracking-widest rounded-xl text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-colors mb-1">Aditivo</button>
+                                    <button onclick="setNovoTipo('estorno', 'Estorno', 'text-rose-600 dark:text-rose-400')" class="w-full text-left px-3 py-2 text-[11px] font-bold uppercase tracking-widest rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors">Estorno</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-span-2">
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">ID Vindi / Link</label>
@@ -606,6 +613,32 @@
             window.renderizarTabela();
         };
 
+        window.toggleMenuTipo = (idStr, event) => {
+            document.querySelectorAll('[id^="menu-tipo-"]').forEach(menu => {
+                if (menu.id !== `menu-tipo-${idStr}`) menu.classList.add('hidden');
+            });
+            const m = document.getElementById(`menu-tipo-${idStr}`);
+            if (m) m.classList.toggle('hidden');
+            if (event) event.stopPropagation();
+        };
+
+        window.selecionarTipo = (id, tipo) => {
+            window.atualizarDado(id, 'tipo', tipo);
+        };
+
+        window.toggleNovoTipoMenu = (event) => {
+            document.getElementById('novo-tipo-menu').classList.toggle('hidden');
+            if(event) event.stopPropagation();
+        };
+
+        window.setNovoTipo = (valor, label, colorClass) => {
+            document.getElementById('novo-tipo').value = valor;
+            const btnLabel = document.getElementById('novo-tipo-label');
+            btnLabel.innerText = label;
+            btnLabel.className = colorClass;
+            document.getElementById('novo-tipo-menu').classList.add('hidden');
+        };
+
         document.addEventListener('click', (e) => {
             const colContainer = document.getElementById('colunas-dropdown-container');
             const colMenu = document.getElementById('menu-colunas');
@@ -617,6 +650,15 @@
             const statusMenu = document.getElementById('menu-status');
             if (statusContainer && statusMenu && !statusContainer.contains(e.target) && !statusMenu.classList.contains('hidden')) {
                 statusMenu.classList.add('hidden');
+            }
+
+            if (!e.target.closest('.tipo-dropdown-container')) {
+                document.querySelectorAll('[id^="menu-tipo-"]').forEach(menu => menu.classList.add('hidden'));
+            }
+
+            if (!e.target.closest('#novo-tipo-container')) {
+                const ntm = document.getElementById('novo-tipo-menu');
+                if (ntm) ntm.classList.add('hidden');
             }
         });
 
@@ -914,7 +956,7 @@
             document.getElementById('novo-cliente').value = '';
             document.getElementById('novo-licencas').value = '1';
             document.getElementById('novo-vencimento').value = '';
-            document.getElementById('novo-tipo').value = 'venda';
+            window.setNovoTipo('venda', 'Venda', 'text-brand-600 dark:text-brand-400');
             document.getElementById('novo-vindi').value = '';
             
             const modal = document.getElementById('modal-novo');
@@ -1070,6 +1112,9 @@
                     badgeText = 'Atrasado';
                 }
 
+                let tipoDisplay = (!i.tipo || i.tipo === 'venda') ? 'VENDA' : (i.tipo === 'aditivo' ? 'ADITIVO' : 'ESTORNO');
+                let tipoColor = (!i.tipo || i.tipo === 'venda') ? 'text-brand-600 dark:text-brand-400' : (i.tipo === 'aditivo' ? 'text-blue-600 dark:text-blue-400' : 'text-rose-600 dark:text-rose-400');
+
                 // DESKTOP ROW
                 const tr = document.createElement('tr'); 
                 tr.className=`group hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors ${i.tipo === 'estorno' ? 'bg-rose-50/20 dark:bg-rose-900/5' : ''}`;
@@ -1091,11 +1136,17 @@
                     </div>
                 </td>
                 <td class="${getColClass('tipo', 'px-4 py-3 text-center')}">
-                    <select onchange="atualizarDado('${i.id}', 'tipo', this.value)" class="stealth-input px-2 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest outline-none cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 ${i.tipo === 'estorno' ? 'text-rose-500 dark:text-rose-400' : 'text-brand-600 dark:text-brand-400'}">
-                        <option value="venda" ${(!i.tipo || i.tipo === 'venda') ? 'selected' : ''} class="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-200">Venda</option>
-                        <option value="aditivo" ${i.tipo === 'aditivo' ? 'selected' : ''} class="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-200">Aditivo</option>
-                        <option value="estorno" ${i.tipo === 'estorno' ? 'selected' : ''} class="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-200">Estorno</option>
-                    </select>
+                    <div class="relative tipo-dropdown-container w-[100px] mx-auto">
+                        <button type="button" onclick="toggleMenuTipo('desktop-${i.id}', event)" class="w-full flex items-center justify-between stealth-input px-3 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest outline-none cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${tipoColor}">
+                            <span>${tipoDisplay}</span>
+                            <i data-lucide="chevron-down" class="w-3 h-3 ml-1 opacity-50"></i>
+                        </button>
+                        <div id="menu-tipo-desktop-${i.id}" class="hidden absolute left-0 top-full mt-1 w-32 glass-card rounded-xl p-1.5 z-[100] shadow-2xl border border-slate-200 dark:border-slate-700 text-left">
+                            <button type="button" onclick="selecionarTipo('${i.id}', 'venda')" class="w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-brand-600 dark:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition-colors mb-0.5">Venda</button>
+                            <button type="button" onclick="selecionarTipo('${i.id}', 'aditivo')" class="w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-colors mb-0.5">Aditivo</button>
+                            <button type="button" onclick="selecionarTipo('${i.id}', 'estorno')" class="w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors">Estorno</button>
+                        </div>
+                    </div>
                 </td>
                 <td class="${getColClass('vindi', 'px-4 py-3')}">
                     <div class="flex items-center gap-2">
@@ -1161,11 +1212,17 @@
                 </div>
 
                 <div class="bg-slate-50/50 dark:bg-slate-900/50 p-3 rounded-2xl border border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                    <select onchange="atualizarDado('${i.id}', 'tipo', this.value)" class="bg-transparent outline-none text-[10px] font-bold uppercase tracking-widest cursor-pointer ${i.tipo === 'estorno' ? 'text-rose-500' : 'text-brand-500'}">
-                        <option value="venda" ${(!i.tipo || i.tipo === 'venda') ? 'selected' : ''} class="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-200">VENDA</option>
-                        <option value="aditivo" ${i.tipo === 'aditivo' ? 'selected' : ''} class="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-200">ADITIVO</option>
-                        <option value="estorno" ${i.tipo === 'estorno' ? 'selected' : ''} class="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-200">ESTORNO</option>
-                    </select>
+                    <div class="relative tipo-dropdown-container">
+                        <button type="button" onclick="toggleMenuTipo('mobile-${i.id}', event)" class="flex items-center justify-between bg-transparent outline-none text-[10px] font-bold uppercase tracking-widest cursor-pointer px-2 py-1 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors ${tipoColor}">
+                            <span>${tipoDisplay}</span>
+                            <i data-lucide="chevron-down" class="w-3 h-3 ml-1 opacity-50"></i>
+                        </button>
+                        <div id="menu-tipo-mobile-${i.id}" class="hidden absolute left-0 bottom-full mb-1 w-32 glass-card rounded-xl p-1.5 z-[100] shadow-2xl border border-slate-200 dark:border-slate-700 text-left">
+                            <button type="button" onclick="selecionarTipo('${i.id}', 'venda')" class="w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-brand-600 dark:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition-colors mb-0.5">Venda</button>
+                            <button type="button" onclick="selecionarTipo('${i.id}', 'aditivo')" class="w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-colors mb-0.5">Aditivo</button>
+                            <button type="button" onclick="selecionarTipo('${i.id}', 'estorno')" class="w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors">Estorno</button>
+                        </div>
+                    </div>
                     <div class="flex items-center gap-1">
                         <span class="text-xs font-bold ${i.tipo === 'estorno' ? 'text-rose-500' : 'text-brand-500'}">${i.tipo === 'estorno' ? '-' : ''} R$</span>
                         <input type="number" value="${i.valorUnitario}" onchange="atualizarDado('${i.id}', 'valorUnitario', this.value)" class="w-16 font-black bg-transparent outline-none text-right ${i.tipo === 'estorno' ? 'text-rose-600 dark:text-rose-400' : 'text-brand-600 dark:text-brand-400'}"> 
