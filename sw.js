@@ -1,4 +1,4 @@
-const CACHE_NAME = 'financeiro-pro-v2'; // Mudei de v1 para v2
+const CACHE_NAME = 'financeiro-pro-v3'; // Mudei de v1 para v2
 const urlsToCache = [
   './',
   './index.html',
