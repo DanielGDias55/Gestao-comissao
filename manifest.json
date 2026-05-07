@@ -1,7 +1,7 @@
 {
   "name": "Financeiro Pro",
   "short_name": "Financeiro",
-  "description": "SaaS para gestão financeira e controle de contratos",
+  "description": "SaaS para gestão financeira e controle de contratos v4",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#020617",
