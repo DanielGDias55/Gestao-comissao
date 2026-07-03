@@ -353,15 +353,15 @@
         <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 relative z-10">
             
             <!-- Floating Header -->
-            <header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 relative z-[60]">
-                <div>
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/30">
+            <header class="flex flex-col xl:flex-row xl:items-center justify-between gap-8 mb-12 relative z-[60]">
+                <div class="flex flex-col items-center xl:items-start text-center xl:text-left">
+                    <div class="flex items-center justify-center xl:justify-start gap-3 mb-2">
+                        <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/30 shrink-0">
                             <i data-lucide="activity" class="text-white w-5 h-5"></i>
                         </div>
                         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">Visão Geral</h1>
                     </div>
-                    <div class="text-slate-400 text-[11px] font-bold uppercase tracking-widest flex flex-wrap items-center gap-2 ml-1 mt-3">
+                    <div class="text-slate-400 text-[11px] font-bold uppercase tracking-widest flex flex-wrap justify-center xl:justify-start items-center gap-2 mt-3">
                         <div class="flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                             <span id="user-display">Usuário Ativo</span>
@@ -379,7 +379,7 @@
                 </div>
 
                 <!-- Ações Rápidas -->
-                <div class="flex flex-wrap items-center gap-3 glass-card p-2 rounded-[2rem]">
+                <div class="flex flex-wrap items-center justify-center gap-3 glass-card p-2 rounded-[2rem] w-full xl:w-auto mx-auto xl:mx-0">
                     <!-- Theme Toggle -->
                     <button onclick="toggleDarkMode()" class="p-3 text-slate-400 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors active:scale-95">
                         <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
@@ -446,16 +446,12 @@
                         </button>
                     </div>
 
-                    <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
+                    <div class="h-8 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block"></div>
 
-                    <!-- NOVO: Pesquisa e Ordenação -->
+                    <!-- NOVO: Pesquisa Responsiva no Header -->
                     <div class="flex items-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 px-3 py-1 focus-within:border-brand-500 transition-colors h-[40px]">
                         <i data-lucide="search" class="w-4 h-4 text-slate-400 mr-2"></i>
-                        <input type="text" id="busca-cliente" oninput="renderizarTabela()" placeholder="Buscar cliente..." class="bg-transparent outline-none text-xs font-medium w-28 sm:w-40 dark:text-white placeholder:text-slate-400">
-                        <div class="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-2"></div>
-                        <button onclick="toggleOrdem()" class="text-slate-400 hover:text-brand-500 transition-colors flex items-center" title="Alternar ordem">
-                            <i data-lucide="arrow-down-a-z" id="icone-ordem" class="w-4 h-4"></i>
-                        </button>
+                        <input type="text" id="busca-cliente" oninput="renderizarTabela()" placeholder="Buscar cliente..." class="bg-transparent outline-none text-xs font-medium w-24 sm:w-32 lg:w-48 dark:text-white placeholder:text-slate-400">
                     </div>
 
                     <!-- Botão Abre Modal -->
@@ -467,43 +463,42 @@
             </header>
 
             <!-- Dashboard de Cards (KPIs) -->
-            <div class="grid grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6 mb-12">
+            <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 mb-12">
                 
                 <!-- NOVO: Apenas Comissões -->
-                <div class="glass-card p-6 rounded-[2rem] border-t-4 border-slate-300 dark:border-slate-700 opacity-90 hover:opacity-100 transition-opacity">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Apenas Comissões</p>
-                    <p id="res-comissoes" class="text-xl font-black text-slate-600 dark:text-slate-400 tracking-tight">R$ 0,00</p>
+                <div class="glass-card p-4 sm:p-5 rounded-[2rem] overflow-hidden">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 truncate">Comissões</p>
+                    <p id="res-comissoes" class="text-lg xl:text-xl font-black text-slate-600 dark:text-slate-400 tracking-tight truncate">R$ 0,00</p>
                 </div>
 
                 <!-- Bruto -->
-                <div class="glass-card p-6 rounded-[2rem] border-t-4 border-brand-500 hover:-translate-y-1 transition-transform duration-300">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Rendimento Bruto</p>
-                    <p id="res-bruto" class="text-xl font-black text-brand-600 dark:text-brand-400 tracking-tight">R$ 0,00</p>
+                <div class="glass-card p-4 sm:p-5 rounded-[2rem] overflow-hidden">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 truncate">Bruto</p>
+                    <p id="res-bruto" class="text-lg xl:text-xl font-black text-brand-600 dark:text-brand-400 tracking-tight truncate">R$ 0,00</p>
                 </div>
                 
                 <!-- INSS -->
-                <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Dedução INSS</p>
-                    <p id="res-inss" class="text-xl font-black text-amber-500 dark:text-amber-400 tracking-tight">R$ 0,00</p>
+                <div class="glass-card p-4 sm:p-5 rounded-[2rem] overflow-hidden">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 truncate">INSS</p>
+                    <p id="res-inss" class="text-lg xl:text-xl font-black text-amber-500 dark:text-amber-400 tracking-tight truncate">R$ 0,00</p>
                 </div>
                 
                 <!-- IRRF -->
-                <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Dedução IRRF</p>
-                    <p id="res-irrf" class="text-xl font-black text-rose-500 dark:text-rose-400 tracking-tight">R$ 0,00</p>
+                <div class="glass-card p-4 sm:p-5 rounded-[2rem] overflow-hidden">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 truncate">IRRF</p>
+                    <p id="res-irrf" class="text-lg xl:text-xl font-black text-rose-500 dark:text-rose-400 tracking-tight truncate">R$ 0,00</p>
                 </div>
                 
                 <!-- Fixos -->
-                <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Descontos Fixos</p>
-                    <p id="res-descontos" class="text-xl font-black text-slate-600 dark:text-slate-300 tracking-tight">R$ 0,00</p>
+                <div class="glass-card p-4 sm:p-5 rounded-[2rem] overflow-hidden">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 truncate">Fixos</p>
+                    <p id="res-descontos" class="text-lg xl:text-xl font-black text-slate-600 dark:text-slate-300 tracking-tight truncate">R$ 0,00</p>
                 </div>
                 
                 <!-- Líquido -->
-                <div class="col-span-2 lg:col-span-1 bg-gradient-to-br from-emerald-400 to-emerald-600 p-6 rounded-[2rem] shadow-xl shadow-emerald-500/30 text-white hover:-translate-y-1 transition-transform duration-300 flex flex-col justify-center relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
-                    <p class="text-[10px] font-bold text-emerald-100 uppercase tracking-widest mb-1 relative z-10">Total Líquido</p>
-                    <p id="res-liquido" class="text-2xl font-black tracking-tight relative z-10">R$ 0,00</p>
+                <div class="glass-card p-4 sm:p-5 rounded-[2rem] overflow-hidden bg-emerald-50/60 dark:bg-emerald-900/20 border border-emerald-200/60 dark:border-emerald-800/50">
+                    <p class="text-[10px] font-bold text-emerald-600/80 dark:text-emerald-400/80 uppercase tracking-widest mb-1 truncate">Líquido</p>
+                    <p id="res-liquido" class="text-xl xl:text-2xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight truncate">R$ 0,00</p>
                 </div>
             </div>
 
@@ -513,7 +508,12 @@
                     <table class="w-full text-left whitespace-nowrap">
                         <thead class="relative z-40">
                             <tr class="bg-slate-50/50 dark:bg-slate-900/50 border-b border-slate-200/50 dark:border-slate-800/50">
-                                <th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 rounded-tl-[2rem]">Contrato / Cliente</th>
+                                <th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 rounded-tl-[2rem] cursor-pointer hover:text-brand-500 transition-colors group select-none" onclick="toggleOrdem()">
+                                    <div class="flex items-center gap-2">
+                                        Contrato / Cliente
+                                        <i data-lucide="arrow-down-a-z" id="icone-ordem-tabela" class="w-4 h-4 text-slate-300 dark:text-slate-600 group-hover:text-brand-500 transition-colors"></i>
+                                    </div>
+                                </th>
                                 <th id="th-licencas" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Licenças</th>
                                 <th id="th-mes" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Ref. (Ciclo)</th>
                                 <th id="th-vencimento" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Vencimento</th>
@@ -613,9 +613,11 @@
         // NOVO: Função para alternar ordem A-Z
         window.toggleOrdem = () => {
             window.ordemAz = !window.ordemAz;
-            const icone = document.getElementById('icone-ordem');
-            icone.setAttribute('data-lucide', window.ordemAz ? 'arrow-down-a-z' : 'arrow-up-z-a');
-            window.updateIcons();
+            const icone = document.getElementById('icone-ordem-tabela');
+            if (icone) {
+                icone.setAttribute('data-lucide', window.ordemAz ? 'arrow-down-a-z' : 'arrow-up-z-a');
+                window.updateIcons();
+            }
             window.renderizarTabela();
         };
 
