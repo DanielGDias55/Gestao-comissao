@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaaS Financeiro - Cloud Pro</title>
 
-    <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
     <link rel="apple-touch-icon" href="icon-192.png">
@@ -107,7 +106,6 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 min-h-screen antialiased selection:bg-brand-500 selection:text-white pb-20">
 
-    <!-- Tela de Login -->
     <div id="login-screen" class="fixed inset-0 bg-slate-100/60 dark:bg-slate-950/80 z-[2000] flex items-center justify-center p-4 backdrop-blur-xl transition-opacity duration-500">
         <div class="glass-panel p-10 rounded-[3rem] w-full max-w-md shadow-2xl">
             <div class="text-center mb-10">
@@ -159,12 +157,9 @@
         </div>
     </div>
 
-    <!-- Conteúdo do App -->
     <div id="app-content" class="hidden">
-        <!-- Overlay da Sidebar e Modais -->
         <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/20 dark:bg-slate-950/60 backdrop-blur-sm z-40 hidden transition-opacity" onclick="toggleSidebar()"></div>
 
-        <!-- Sidebar / Gaveta de Configurações -->
         <aside id="sidebar" class="fixed right-0 top-0 h-full w-full sm:w-[400px] glass-panel shadow-2xl p-8 sidebar-closed overflow-y-auto">
             <div class="flex items-center justify-between mb-10 mt-2">
                 <div>
@@ -177,7 +172,6 @@
             </div>
 
             <div class="space-y-6">
-                <!-- Comissão Padrão -->
                 <div class="bg-white/60 dark:bg-slate-900/60 p-5 rounded-[2rem] border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
                     <label class="block text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Comissão Base (R$)</label>
                     <div class="relative">
@@ -186,7 +180,6 @@
                     </div>
                 </div>
 
-                <!-- Fixos -->
                 <div class="bg-white/60 dark:bg-slate-900/60 p-5 rounded-[2rem] border border-slate-200/50 dark:border-slate-800/50 shadow-sm space-y-4">
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Salário Base Mensal</label>
@@ -211,9 +204,7 @@
                     </div>
                 </div>
 
-                <!-- Variáveis -->
                 <div class="grid grid-cols-2 gap-4">
-                    <!-- Vale Transporte -->
                     <div class="bg-brand-50/50 dark:bg-brand-900/10 p-5 rounded-[2rem] border border-brand-100 dark:border-brand-800/30">
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-[10px] font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Vale Transp.</span>
@@ -226,7 +217,6 @@
                         <p id="val-vt-display" class="font-extrabold text-brand-600 dark:text-brand-400 text-center text-sm">R$ 0,00</p>
                     </div>
 
-                    <!-- Adiantamento -->
                     <div class="bg-amber-50/50 dark:bg-amber-900/10 p-5 rounded-[2rem] border border-amber-100 dark:border-amber-800/30">
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-[10px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">Adiantamento</span>
@@ -246,10 +236,8 @@
             </button>
         </aside>
 
-        <!-- NOVO: MODAL DE ADIÇÃO DE CONTRATO -->
         <div id="modal-novo" class="fixed inset-0 bg-slate-900/40 dark:bg-slate-950/80 backdrop-blur-sm z-[2500] hidden items-center justify-center p-4">
             <div class="glass-card w-full max-w-lg rounded-[2.5rem] p-8 shadow-2xl relative border border-slate-200 dark:border-slate-700">
-                <!-- Botão Fechar -->
                 <button onclick="fecharModalNovo()" class="absolute top-6 right-6 p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition-colors">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
@@ -263,7 +251,6 @@
                 </div>
 
                 <div class="space-y-4">
-                    <!-- Nome do Cliente -->
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Cliente / Contrato *</label>
                         <div class="relative">
@@ -273,7 +260,6 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
-                        <!-- Licenças -->
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Licenças *</label>
                             <div class="relative">
@@ -282,7 +268,6 @@
                             </div>
                         </div>
                         
-                        <!-- Vencimento -->
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Vencimento</label>
                             <div class="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl transition-all focus-within:ring-2 focus-within:ring-brand-500">
@@ -292,7 +277,6 @@
                         </div>
                     </div>
 
-                    <!-- Tipo e Vindi -->
                     <div class="grid grid-cols-3 gap-4">
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Tipo</label>
@@ -330,7 +314,6 @@
             </div>
         </div>
 
-        <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
         <div id="modal-excluir" class="fixed inset-0 bg-slate-900/40 dark:bg-slate-950/80 backdrop-blur-sm z-[2500] hidden items-center justify-center p-4 transition-opacity">
             <div class="glass-card w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl relative border border-slate-200 dark:border-slate-700 text-center transform transition-all">
                 <div class="w-16 h-16 bg-rose-50 dark:bg-rose-500/10 rounded-full flex items-center justify-center mx-auto mb-5 text-rose-500 shadow-sm border border-rose-100 dark:border-rose-500/20">
@@ -349,10 +332,8 @@
             </div>
         </div>
 
-        <!-- Main Workspace -->
         <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 relative z-10">
             
-            <!-- Floating Header -->
             <header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 relative z-[60]">
                 <div>
                     <div class="flex items-center gap-3 mb-2">
@@ -378,9 +359,7 @@
                     </div>
                 </div>
 
-                <!-- Ações Rápidas -->
                 <div class="flex flex-wrap items-center gap-3 glass-card p-2 rounded-[2rem]">
-                    <!-- Theme Toggle -->
                     <button onclick="toggleDarkMode()" class="p-3 text-slate-400 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors active:scale-95">
                         <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
                         <i data-lucide="sun" class="w-5 h-5 hidden dark:block text-amber-400"></i>
@@ -388,7 +367,6 @@
                     
                     <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
 
-                    <!-- Ferramentas CSV -->
                     <div class="flex items-center gap-1">
                         <button onclick="baixarModeloCSV()" class="p-2 text-slate-400 hover:text-brand-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors active:scale-95" title="Baixar Modelo de Planilha">
                             <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
@@ -405,7 +383,6 @@
 
                     <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
 
-                    <!-- Filtro de Status Customizado -->
                     <div class="relative" id="status-dropdown-container">
                         <input type="hidden" id="filtro-status" value="todos">
                         <button type="button" onclick="toggleMenuStatus()" class="flex items-center bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 px-3 py-1 hover:border-brand-500 dark:hover:border-brand-500 transition-colors group h-[40px] min-w-[150px] justify-between">
@@ -434,7 +411,6 @@
 
                     <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
 
-                    <!-- Filtro de Ciclo (Mês) e Rolagem -->
                     <div class="flex items-center bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 px-1 py-1 hover:border-brand-500 dark:hover:border-brand-500 transition-colors group h-[40px]">
                         <div class="date-input-container px-3 py-2 hover:bg-slate-200/50 dark:hover:bg-slate-700/50 rounded-xl transition-colors" title="Ciclo Atual">
                             <i data-lucide="calendar" class="w-4 h-4 text-brand-500 mr-2 group-hover:scale-110 transition-transform"></i>
@@ -446,7 +422,17 @@
                         </button>
                     </div>
 
-                    <!-- NOVO: Botão Abre Modal -->
+                    <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
+
+                    <div class="flex items-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 px-3 py-1 focus-within:border-brand-500 transition-colors h-[40px]">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 mr-2"></i>
+                        <input type="text" id="busca-cliente" oninput="renderizarTabela()" placeholder="Buscar cliente..." class="bg-transparent outline-none text-xs font-medium w-28 sm:w-40 dark:text-white placeholder:text-slate-400">
+                        <div class="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-2"></div>
+                        <button onclick="toggleOrdem()" class="text-slate-400 hover:text-brand-500 transition-colors flex items-center" title="Alternar ordem">
+                            <i data-lucide="arrow-down-a-z" id="icone-ordem" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
                     <button onclick="abrirModalNovo()" class="bg-brand-600 hover:bg-brand-500 text-white px-5 py-3 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-brand-500/30 active:scale-95 transition-all ml-1">
                         <i data-lucide="plus" class="w-5 h-5"></i> 
                         <span class="hidden sm:inline">Adicionar</span>
@@ -454,863 +440,31 @@
                 </div>
             </header>
 
-            <!-- Dashboard de Cards (KPIs) -->
-            <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-12">
-                <!-- Bruto -->
+            <div class="grid grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6 mb-12">
+                
+                <div class="glass-card p-6 rounded-[2rem] border-t-4 border-slate-300 dark:border-slate-700 opacity-90 hover:opacity-100 transition-opacity">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Apenas Comissões</p>
+                    <p id="res-comissoes" class="text-xl font-black text-slate-600 dark:text-slate-400 tracking-tight">R$ 0,00</p>
+                </div>
+
                 <div class="glass-card p-6 rounded-[2rem] border-t-4 border-brand-500 hover:-translate-y-1 transition-transform duration-300">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Rendimento Bruto</p>
                     <p id="res-bruto" class="text-xl font-black text-brand-600 dark:text-brand-400 tracking-tight">R$ 0,00</p>
                 </div>
-                <!-- INSS -->
+                
                 <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Dedução INSS</p>
                     <p id="res-inss" class="text-xl font-black text-amber-500 dark:text-amber-400 tracking-tight">R$ 0,00</p>
                 </div>
-                <!-- IRRF -->
+                
                 <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Dedução IRRF</p>
                     <p id="res-irrf" class="text-xl font-black text-rose-500 dark:text-rose-400 tracking-tight">R$ 0,00</p>
                 </div>
-                <!-- Fixos -->
+                
                 <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Descontos Fixos</p>
                     <p id="res-descontos" class="text-xl font-black text-slate-600 dark:text-slate-300 tracking-tight">R$ 0,00</p>
                 </div>
-                <!-- Líquido -->
-                <div class="col-span-2 lg:col-span-1 bg-gradient-to-br from-emerald-400 to-emerald-600 p-6 rounded-[2rem] shadow-xl shadow-emerald-500/30 text-white hover:-translate-y-1 transition-transform duration-300 flex flex-col justify-center relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
-                    <p class="text-[10px] font-bold text-emerald-100 uppercase tracking-widest mb-1 relative z-10">Total Líquido</p>
-                    <p id="res-liquido" class="text-2xl font-black tracking-tight relative z-10">R$ 0,00</p>
-                </div>
-            </div>
-
-            <!-- Tabela Principal Desktop -->
-            <div class="glass-card rounded-[2rem] hidden sm:block mb-10 relative z-30">
-                <div class="w-full overflow-visible">
-                    <table class="w-full text-left whitespace-nowrap">
-                        <thead class="relative z-40">
-                            <tr class="bg-slate-50/50 dark:bg-slate-900/50 border-b border-slate-200/50 dark:border-slate-800/50">
-                                <th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 rounded-tl-[2rem]">Contrato / Cliente</th>
-                                <th id="th-licencas" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Licenças</th>
-                                <th id="th-mes" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Ref. (Ciclo)</th>
-                                <th id="th-vencimento" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Vencimento</th>
-                                <th id="th-tipo" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Tipo</th>
-                                <th id="th-vindi" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">ID Vindi</th>
-                                <th id="th-comissao" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-right">Comissão (Un.)</th>
-                                <th id="th-situacao" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Situação</th>
-                                <th id="th-recebido" class="px-4 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">Recebido?</th>
-                                <th class="px-6 py-5 text-right relative rounded-tr-[2rem]" id="colunas-dropdown-container">
-                                    <button type="button" onclick="toggleMenuColunas()" class="p-2 text-slate-400 hover:text-brand-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors active:scale-95 group" title="Personalizar Colunas">
-                                        <i data-lucide="columns" class="w-5 h-5 transition-transform group-hover:scale-110"></i>
-                                    </button>
-                                    <div id="menu-colunas" class="hidden absolute right-4 top-full mt-2 w-56 glass-card rounded-2xl p-3 z-[100] shadow-2xl border border-slate-200 dark:border-slate-700 text-left font-normal normal-case">
-                                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 px-2">Mostrar Colunas</p>
-                                        <div class="space-y-1" id="lista-colunas-toggles">
-                                            <!-- Renderizado via JS -->
-                                        </div>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="corpo-tabela" class="divide-y divide-slate-100/50 dark:divide-slate-800/50 relative z-10">
-                            <!-- Gerado via JS -->
-                        </tbody>
-                    </table>
-                </div>
-                <!-- Empty State -->
-                <div id="empty-state" class="hidden py-16 text-center">
-                    <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-lucide="inbox" class="w-8 h-8 text-slate-400"></i>
-                    </div>
-                    <p class="text-slate-500 dark:text-slate-400 font-medium">Nenhum contrato neste ciclo.</p>
-                </div>
-            </div>
-
-            <!-- Mobile List -->
-            <div id="mobile-lista" class="sm:hidden space-y-4 mb-20">
-                <!-- Gerado via JS -->
-            </div>
-        </main>
-
-        <!-- Botão Flutuante (Ajustes) -->
-        <button onclick="toggleSidebar()" class="fixed bottom-6 right-6 w-16 h-16 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-[2rem] shadow-2xl shadow-slate-900/20 dark:shadow-white/20 flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-40 group">
-            <i data-lucide="sliders-horizontal" class="w-6 h-6 group-hover:rotate-90 transition-transform duration-300"></i>
-        </button>
-    </div>
-
-    <!-- Sistema de Notificações -->
-    <div id="toast-container" class="fixed top-6 right-6 z-[3000] flex flex-col gap-3 pointer-events-none"></div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAhGH_zr0zMBGuvd4Ggz9M8mlxbstKJuyI",
-            authDomain: "meufinanceiro-c6536.firebaseapp.com",
-            projectId: "meufinanceiro-c6536",
-            storageBucket: "meufinanceiro-c6536.firebasestorage.app",
-            messagingSenderId: "472630772518",
-            appId: "1:472630772518:web:d3f16146a4ce498e4f37e7"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
-        let currentUser = null;
-        
-        window.configs = { salBase: 2190.1, saude: 243.58, vtPerc: 6, vtActive: true, admPerc: 40, admActive: true, comissaoPadrao: 40.0, outrosGastos: 0 };
-        window.dados = [];
-
-        window.updateIcons = () => {
-            if (typeof lucide !== 'undefined' && lucide.createIcons) {
-                lucide.createIcons();
-            } else if (window.lucide && window.lucide.createIcons) {
-                window.lucide.createIcons();
-            }
-        };
-
-        window.showToast = (msg, type = 'success') => {
-            const t = document.createElement('div');
-            const isSuccess = type === 'success';
-            t.className = `p-4 rounded-2xl glass-card flex items-center gap-3 shadow-xl transform transition-transform duration-300 translate-x-[120%] border-l-4 ${isSuccess ? 'border-emerald-500 text-slate-800 dark:text-white' : 'border-rose-500 text-rose-500'} pointer-events-auto`;
-            t.innerHTML = `<i data-lucide="${isSuccess ? 'check-circle' : 'alert-circle'}" class="w-5 h-5 ${isSuccess ? 'text-emerald-500' : 'text-rose-500'}"></i><p class="text-sm font-bold">${msg}</p>`;
-            document.getElementById('toast-container').appendChild(t);
-            window.updateIcons(); 
-
-            requestAnimationFrame(() => requestAnimationFrame(() => t.classList.remove('translate-x-[120%]')));
-            setTimeout(() => {
-                t.classList.add('translate-x-[120%]');
-                setTimeout(() => t.remove(), 300);
-            }, 4000);
-        };
-
-        /* =========================================
-           SISTEMA DE VISIBILIDADE DE COLUNAS
-        ========================================= */
-        window.colunasDefinicao = [
-            { id: 'licencas', label: 'Licenças' },
-            { id: 'mes', label: 'Ref. (Ciclo)' },
-            { id: 'vencimento', label: 'Vencimento' },
-            { id: 'tipo', label: 'Tipo' },
-            { id: 'vindi', label: 'Link do Cliente' },
-            { id: 'comissao', label: 'Comissão (Un.)' },
-            { id: 'situacao', label: 'Situação' },
-            { id: 'recebido', label: 'Recebido?' }
-        ];
-
-        window.colunasVisible = JSON.parse(localStorage.getItem('colunasVisibleFinanceiro')) || {
-            licencas: true, mes: true, vencimento: true, tipo: true, vindi: true, comissao: true, situacao: true, recebido: true
-        };
-
-        window.toggleMenuColunas = () => {
-            const menu = document.getElementById('menu-colunas');
-            menu.classList.toggle('hidden');
-        };
-
-        window.toggleMenuStatus = () => {
-            const menu = document.getElementById('menu-status');
-            menu.classList.toggle('hidden');
-        };
-
-        window.setStatusFiltro = (valor, label) => {
-            document.getElementById('filtro-status').value = valor;
-            document.getElementById('filtro-status-label').innerText = label;
-            document.getElementById('menu-status').classList.add('hidden');
-            window.renderizarTabela();
-        };
-
-        window.toggleMenuTipo = (idStr, event) => {
-            document.querySelectorAll('[id^="menu-tipo-"]').forEach(menu => {
-                if (menu.id !== `menu-tipo-${idStr}`) menu.classList.add('hidden');
-            });
-            const m = document.getElementById(`menu-tipo-${idStr}`);
-            if (m) m.classList.toggle('hidden');
-            if (event) event.stopPropagation();
-        };
-
-        window.selecionarTipo = (id, tipo) => {
-            window.atualizarDado(id, 'tipo', tipo);
-        };
-
-        window.toggleNovoTipoMenu = (event) => {
-            document.getElementById('novo-tipo-menu').classList.toggle('hidden');
-            if(event) event.stopPropagation();
-        };
-
-        window.setNovoTipo = (valor, label, colorClass) => {
-            document.getElementById('novo-tipo').value = valor;
-            const btnLabel = document.getElementById('novo-tipo-label');
-            btnLabel.innerText = label;
-            btnLabel.className = colorClass;
-            document.getElementById('novo-tipo-menu').classList.add('hidden');
-        };
-
-        document.addEventListener('click', (e) => {
-            const colContainer = document.getElementById('colunas-dropdown-container');
-            const colMenu = document.getElementById('menu-colunas');
-            if (colContainer && colMenu && !colContainer.contains(e.target) && !colMenu.classList.contains('hidden')) {
-                colMenu.classList.add('hidden');
-            }
-
-            const statusContainer = document.getElementById('status-dropdown-container');
-            const statusMenu = document.getElementById('menu-status');
-            if (statusContainer && statusMenu && !statusContainer.contains(e.target) && !statusMenu.classList.contains('hidden')) {
-                statusMenu.classList.add('hidden');
-            }
-
-            if (!e.target.closest('.tipo-dropdown-container')) {
-                document.querySelectorAll('[id^="menu-tipo-"]').forEach(menu => menu.classList.add('hidden'));
-            }
-
-            if (!e.target.closest('#novo-tipo-container')) {
-                const ntm = document.getElementById('novo-tipo-menu');
-                if (ntm) ntm.classList.add('hidden');
-            }
-        });
-
-        window.renderizarOpcoesColunas = () => {
-            const container = document.getElementById('lista-colunas-toggles');
-            container.innerHTML = '';
-            window.colunasDefinicao.forEach(col => {
-                const isChecked = window.colunasVisible[col.id];
-                container.innerHTML += `
-                    <label class="flex items-center justify-between px-2 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl cursor-pointer transition-colors group">
-                        <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest group-hover:text-brand-500 transition-colors">${col.label}</span>
-                        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleVisibilidadeColuna('${col.id}', this.checked)" class="w-4 h-4 text-brand-500 rounded border-slate-300 focus:ring-brand-500 bg-transparent cursor-pointer">
-                    </label>
-                `;
-            });
-        };
-
-        window.toggleVisibilidadeColuna = (id, isVisible) => {
-            window.colunasVisible[id] = isVisible;
-            localStorage.setItem('colunasVisibleFinanceiro', JSON.stringify(window.colunasVisible));
-            window.renderizarTabela(); 
-        };
-
-        const getColClass = (colId, baseClasses) => {
-            return window.colunasVisible[colId] ? baseClasses : `${baseClasses} hidden`;
-        };
-
-        /* ========================================= */
-
-        window.baixarModeloCSV = () => {
-            const cabecalho = "cliente,licencas,mes,vencimento,tipo,vindi,valorUnitario,pago\n";
-            const exemplo = "Exemplo Corp,5,2026-04,2026-04-15,venda,https://vindi.com/123,40.00,false\n";
-            const blob = new Blob([cabecalho + exemplo], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "modelo_importacao_financeiro.csv";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            window.showToast('Modelo baixado com sucesso!');
-        };
-
-        window.exportarCSV = () => {
-            if(window.dados.length === 0) return window.showToast("Nenhum dado para exportar.", "error");
-            
-            let csv = "cliente,licencas,mes,vencimento,tipo,vindi,valorUnitario,pago\n";
-            const fMes = document.getElementById('filtro-mes').value;
-            const filtroStatus = document.getElementById('filtro-status').value;
-            const hoje = new Date().toISOString().slice(0, 10);
-            
-            const filtrados = window.dados.filter(i => {
-                const dateMatch = (!fMes || i.mes === fMes);
-                if (!dateMatch) return false;
                 
-                let s = 'em-dia';
-                if (i.pago) s = 'pago';
-                else if (i.vencimento && i.vencimento < hoje) s = 'atrasado';
-                
-                if (filtroStatus !== 'todos' && s !== filtroStatus) return false;
-                return true;
-            });
-            
-            if(filtrados.length === 0) return window.showToast("Nenhum dado no período/filtro atual.", "error");
-
-            filtrados.forEach(i => {
-                const cli = i.cliente ? i.cliente.replace(/,/g, ' ') : ''; 
-                const vin = i.vindi ? i.vindi.replace(/,/g, '') : '';
-                const venc = i.vencimento || '';
-                csv += `"${cli}",${i.licencas},${i.mes},${venc},${i.tipo},"${vin}",${i.valorUnitario},${i.pago}\n`;
-            });
-
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `financeiro_export_${new Date().toISOString().slice(0,10)}.csv`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            window.showToast('Dados exportados com sucesso!');
-        };
-
-        window.processarImportacaoCSV = (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const text = e.target.result;
-                const linesArr = text.split(/\r?\n/);
-                
-                if (linesArr.length < 2) return window.showToast("O arquivo CSV parece estar vazio.", "error");
-
-                let count = 0;
-                for (let i = 1; i < linesArr.length; i++) {
-                    const line = linesArr[i].trim();
-                    if (!line) continue;
-
-                    const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
-                    const cols = line.split(regex).map(col => col.replace(/^"|"$/g, '').trim());
-
-                    if (cols.length >= 7) {
-                        const hasVencimento = cols.length >= 8;
-                        const idxTipo = hasVencimento ? 4 : 3;
-
-                        const novo = {
-                            cliente: cols[0] || "Importado",
-                            licencas: parseInt(cols[1]) || 1,
-                            mes: cols[2] || new Date().toISOString().slice(0, 7),
-                            vencimento: hasVencimento ? (cols[3] || "") : "",
-                            tipo: cols[idxTipo] && cols[idxTipo].toLowerCase() === 'estorno' ? 'estorno' : (cols[idxTipo] && cols[idxTipo].toLowerCase() === 'aditivo' ? 'aditivo' : 'venda'),
-                            vindi: cols[idxTipo+1] || "",
-                            valorUnitario: parseFloat(cols[idxTipo+2]) || window.configs.comissaoPadrao || 40.0,
-                            pago: cols[idxTipo+3] === 'true' || cols[idxTipo+3] === '1' || cols[idxTipo+3].toLowerCase() === 'sim' || cols[idxTipo+3].toLowerCase() === 'pago'
-                        };
-                        push(ref(db, `users/${currentUser.uid}/clientes`), novo);
-                        count++;
-                    }
-                }
-                window.showToast(`${count} registros importados e sincronizados!`);
-                event.target.value = ''; 
-            };
-            reader.readAsText(file);
-        };
-
-        window.togglePassword = () => {
-            const passInput = document.getElementById('login-pass');
-            const eyeIcon = document.getElementById('eye-icon');
-            if (passInput.type === 'password') {
-                passInput.type = 'text';
-                eyeIcon.setAttribute('data-lucide', 'eye-off');
-            } else {
-                passInput.type = 'password';
-                eyeIcon.setAttribute('data-lucide', 'eye');
-            }
-            window.updateIcons(); 
-        };
-
-        window.handleEnter = (e) => {
-            if (e.key === 'Enter') window.handleLogin();
-        };
-
-        const setLoading = (btnId, text, isLoading) => {
-            const btn = document.getElementById(btnId);
-            if (!btn) return;
-            if (isLoading) {
-                btn.dataset.original = btn.innerHTML;
-                btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> ${text}`;
-                window.updateIcons(); 
-            } else {
-                btn.innerHTML = btn.dataset.original;
-                window.updateIcons(); 
-            }
-        };
-
-        window.handleLogin = async () => {
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-pass').value;
-            const err = document.getElementById('auth-error');
-
-            if (!email || !pass) {
-                err.innerText = "Preencha e-mail e senha.";
-                err.classList.remove('hidden');
-                return;
-            }
-
-            try {
-                setLoading('login-btn', 'Entrando...', true);
-                err.classList.add('hidden');
-                await signInWithEmailAndPassword(auth, email, pass);
-            } catch (e) {
-                err.innerText = "E-mail ou senha incorretos.";
-                err.classList.remove('hidden');
-                setLoading('login-btn', '', false);
-            }
-        };
-
-        window.handleSignUp = async () => {
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-pass').value;
-            const err = document.getElementById('auth-error');
-
-            if (!email || !pass) {
-                err.innerText = "Preencha e-mail e senha para criar conta.";
-                err.classList.remove('hidden');
-                return;
-            }
-
-            try {
-                setLoading('signup-btn', 'Criando...', true);
-                err.classList.add('hidden');
-                await createUserWithEmailAndPassword(auth, email, pass);
-            } catch (e) {
-                if(e.code === 'auth/email-already-in-use') err.innerText = "Este e-mail já está em uso.";
-                else if(e.code === 'auth/weak-password') err.innerText = "A senha deve ter pelo menos 6 caracteres.";
-                else err.innerText = "Erro ao criar conta. Verifique os dados.";
-                err.classList.remove('hidden');
-                setLoading('signup-btn', '', false);
-            }
-        };
-
-        window.handleGoogleLogin = async () => {
-            const err = document.getElementById('auth-error');
-            const provider = new GoogleAuthProvider();
-            
-            try {
-                setLoading('google-btn', 'Conectando...', true);
-                err.classList.add('hidden');
-                await signInWithPopup(auth, provider);
-            } catch (e) {
-                err.innerText = "Erro ao conectar com o Google.";
-                err.classList.remove('hidden');
-                setLoading('google-btn', '', false);
-            }
-        };
-
-        window.logout = () => signOut(auth);
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('user-display').innerText = user.email.split('@')[0];
-                
-                if (!document.getElementById('filtro-mes').value) {
-                    document.getElementById('filtro-mes').value = new Date().toISOString().slice(0, 7);
-                }
-
-                const loginScreen = document.getElementById('login-screen');
-                loginScreen.classList.add('opacity-0');
-                setTimeout(() => {
-                    loginScreen.classList.add('hidden');
-                    document.getElementById('app-content').classList.remove('hidden');
-                    window.updateIcons(); 
-                }, 400);
-
-                window.renderizarOpcoesColunas(); 
-                sync();
-            } else {
-                document.getElementById('login-screen').classList.remove('hidden');
-                setTimeout(() => { document.getElementById('login-screen').classList.remove('opacity-0'); }, 50);
-                document.getElementById('app-content').classList.add('hidden');
-            }
-        });
-
-        function sync() {
-            onValue(ref(db, `users/${currentUser.uid}/configs`), (snap) => {
-                const c = snap.val();
-                if (c) {
-                    window.configs = c;
-                    document.getElementById('base-sal').value = c.salBase;
-                    document.getElementById('desc-saude').value = c.saude;
-                    document.getElementById('desc-outros').value = c.outrosGastos || 0;
-                    document.getElementById('perc-vt').value = c.vtPerc;
-                    document.getElementById('active-vt').checked = c.vtActive;
-                    document.getElementById('perc-adm').value = c.admPerc;
-                    document.getElementById('active-adm').checked = c.admActive;
-                    document.getElementById('comissao-padrao').value = c.comissaoPadrao || 40;
-                    atualizarCalculosAutomáticos(false);
-                }
-            });
-
-            onValue(ref(db, `users/${currentUser.uid}/clientes`), (snap) => {
-                window.dados = [];
-                const val = snap.val();
-                for (let id in val) { window.dados.push({ id, ...val[id] }); }
-                renderizarTabela();
-            });
-        }
-
-        window.atualizarCalculosAutomáticos = (deveSalvar = true) => {
-            const base = parseFloat(document.getElementById('base-sal').value) || 0;
-            const saude = parseFloat(document.getElementById('desc-saude').value) || 0;
-            const outros = parseFloat(document.getElementById('desc-outros').value) || 0;
-            const pVT = parseFloat(document.getElementById('perc-vt').value) || 0;
-            const pAdm = parseFloat(document.getElementById('perc-adm').value) || 0;
-            const cPadrao = parseFloat(document.getElementById('comissao-padrao').value) || 0; 
-            const vtAtivo = document.getElementById('active-vt').checked;
-            const admAtivo = document.getElementById('active-adm').checked;
-
-            document.getElementById('val-vt-display').innerText = (vtAtivo ? base * (pVT/100) : 0).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            document.getElementById('val-adm-display').innerText = (admAtivo ? base * (pAdm/100) : 0).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-
-            window.configs = { salBase: base, saude: saude, outrosGastos: outros, vtPerc: pVT, vtActive: vtAtivo, admPerc: pAdm, admActive: admAtivo, comissaoPadrao: cPadrao };
-
-            if (deveSalvar && currentUser) {
-                set(ref(db, `users/${currentUser.uid}/configs`), window.configs);
-            }
-            calcularTudo();
-        };
-
-        /* =========================================
-           SISTEMA DE MODAL PARA NOVO CONTRATO
-        ========================================= */
-        window.abrirModalNovo = () => {
-            // Limpa os campos antes de abrir
-            document.getElementById('novo-cliente').value = '';
-            document.getElementById('novo-licencas').value = '1';
-            document.getElementById('novo-vencimento').value = '';
-            window.setNovoTipo('venda', 'Venda', 'text-brand-600 dark:text-brand-400');
-            document.getElementById('novo-vindi').value = '';
-            
-            const modal = document.getElementById('modal-novo');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        };
-
-        window.fecharModalNovo = () => {
-            const modal = document.getElementById('modal-novo');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        };
-
-        window.salvarNovoContrato = () => {
-            const cliente = document.getElementById('novo-cliente').value.trim();
-            const licencas = parseInt(document.getElementById('novo-licencas').value) || 1;
-            const vencimento = document.getElementById('novo-vencimento').value;
-            const tipo = document.getElementById('novo-tipo').value;
-            const vindi = document.getElementById('novo-vindi').value.trim();
-            
-            if (!cliente) {
-                return window.showToast('O nome do cliente é obrigatório!', 'error');
-            }
-
-            const valorPadrao = window.configs.comissaoPadrao || 40.0;
-            const cicloAtual = document.getElementById('filtro-mes').value || new Date().toISOString().slice(0, 7);
-            
-            const novo = {
-                cliente: cliente,
-                licencas: licencas,
-                mes: cicloAtual, 
-                vencimento: vencimento, 
-                tipo: tipo,
-                vindi: vindi,
-                valorUnitario: valorPadrao,
-                pago: false
-            };
-            
-            push(ref(db, `users/${currentUser.uid}/clientes`), novo);
-            window.showToast('Contrato adicionado com sucesso!');
-            fecharModalNovo();
-        };
-        /* ========================================= */
-
-        window.idParaExcluir = null;
-
-        window.excluirLinha = (id) => {
-            window.idParaExcluir = id;
-            const modal = document.getElementById('modal-excluir');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            window.updateIcons();
-        };
-
-        window.fecharModalExcluir = () => {
-            window.idParaExcluir = null;
-            const modal = document.getElementById('modal-excluir');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        };
-
-        window.confirmarExclusao = () => {
-            if(window.idParaExcluir && currentUser) {
-                remove(ref(db, `users/${currentUser.uid}/clientes/${window.idParaExcluir}`));
-                window.showToast('Contrato excluído com sucesso!');
-                window.fecharModalExcluir();
-            }
-        };
-
-        window.atualizarDado = (id, campo, valor) => {
-            const up = {};
-            up[campo] = (['licencas', 'valorUnitario'].includes(campo)) ? parseFloat(valor) : valor;
-            update(ref(db, `users/${currentUser.uid}/clientes/${id}`), up);
-        };
-
-        window.toggleDarkMode = () => {
-            const d = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', d ? 'dark' : 'light');
-            window.updateIcons(); 
-        };
-
-        window.toggleSidebar = () => {
-            document.getElementById('sidebar').classList.toggle('sidebar-closed');
-            document.getElementById('sidebar-overlay').classList.toggle('hidden');
-        };
-
-        window.importarPendentes = () => {
-            const cicloAtual = document.getElementById('filtro-mes').value;
-            if (!cicloAtual) return window.showToast('Selecione um ciclo para importar.', 'error');
-            
-            let count = 0;
-            window.dados.forEach(i => {
-                if (!i.pago && i.mes < cicloAtual && i.tipo !== 'estorno') {
-                    window.atualizarDado(i.id, 'mes', cicloAtual);
-                    count++;
-                }
-            });
-            
-            if (count > 0) {
-                window.showToast(`${count} pendências movidas para o ciclo atual!`);
-            } else {
-                window.showToast('Nenhuma pendência anterior encontrada.', 'success');
-            }
-        };
-
-        window.renderizarTabela = () => {
-            const fMes = document.getElementById('filtro-mes').value;
-            const filtroStatus = document.getElementById('filtro-status').value;
-            const hoje = new Date().toISOString().slice(0, 10);
-
-            const corpo = document.getElementById('corpo-tabela');
-            const mobile = document.getElementById('mobile-lista');
-            const emptyState = document.getElementById('empty-state');
-            
-            window.colunasDefinicao.forEach(col => {
-                const th = document.getElementById(`th-${col.id}`);
-                if(th) {
-                    if(window.colunasVisible[col.id]) th.classList.remove('hidden');
-                    else th.classList.add('hidden');
-                }
-            });
-            
-            corpo.innerHTML = ""; mobile.innerHTML = "";
-
-            const filtrados = window.dados.filter(i => {
-                const dateMatch = (!fMes || i.mes === fMes);
-                if (!dateMatch) return false;
-
-                let statusCalc = 'em-dia';
-                if (i.pago) statusCalc = 'pago';
-                else if (i.vencimento && i.vencimento < hoje) statusCalc = 'atrasado';
-
-                if (filtroStatus !== 'todos' && statusCalc !== filtroStatus) return false;
-
-                return true;
-            }).sort((a,b) => a.cliente.localeCompare(b.cliente)); // Ordena alfabeticamente agora
-
-            if(filtrados.length === 0) {
-                if(emptyState) emptyState.classList.remove('hidden');
-            } else {
-                if(emptyState) emptyState.classList.add('hidden');
-            }
-
-            filtrados.forEach(i => {
-                let badgeClass = 'bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20';
-                let badgeText = 'Em Dia';
-                
-                if (i.pago) {
-                    badgeClass = 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20';
-                    badgeText = 'Pago';
-                } else if (i.vencimento && i.vencimento < hoje) {
-                    badgeClass = 'bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20';
-                    badgeText = 'Atrasado';
-                }
-
-                let tipoDisplay = (!i.tipo || i.tipo === 'venda') ? 'VENDA' : (i.tipo === 'aditivo' ? 'ADITIVO' : 'ESTORNO');
-                let tipoColor = (!i.tipo || i.tipo === 'venda') ? 'text-brand-600 dark:text-brand-400' : (i.tipo === 'aditivo' ? 'text-blue-600 dark:text-blue-400' : 'text-rose-600 dark:text-rose-400');
-
-                // DESKTOP ROW
-                const tr = document.createElement('tr'); 
-                tr.className=`group hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors ${i.tipo === 'estorno' ? 'bg-rose-50/20 dark:bg-rose-900/5' : ''}`;
-                tr.innerHTML = `
-                <td class="px-6 py-3">
-                    <input type="text" value="${i.cliente}" placeholder="Nome do Cliente..." onchange="atualizarDado('${i.id}', 'cliente', this.value)" class="w-full font-bold stealth-input px-3 py-2 rounded-xl text-slate-800 dark:text-slate-200">
-                </td>
-                <td class="${getColClass('licencas', 'px-4 py-3 text-center')}">
-                    <input type="number" value="${i.licencas}" onchange="atualizarDado('${i.id}', 'licencas', this.value)" class="w-16 text-center font-bold stealth-input px-2 py-2 rounded-xl text-slate-800 dark:text-slate-200">
-                </td>
-                <td class="${getColClass('mes', 'px-4 py-3 text-center')}">
-                    <div class="date-input-container w-[110px] mx-auto stealth-input px-2 py-2 rounded-xl">
-                        <input type="month" value="${i.mes}" onchange="atualizarDado('${i.id}', 'mes', this.value)" class="w-full bg-transparent outline-none font-bold text-[11px] uppercase text-center text-slate-600 dark:text-slate-300">
-                    </div>
-                </td>
-                <td class="${getColClass('vencimento', 'px-4 py-3 text-center')}">
-                    <div class="date-input-container w-[110px] mx-auto stealth-input px-2 py-2 rounded-xl">
-                        <input type="date" value="${i.vencimento || ''}" onchange="atualizarDado('${i.id}', 'vencimento', this.value)" class="w-full bg-transparent outline-none font-bold text-[11px] uppercase text-center text-slate-600 dark:text-slate-300">
-                    </div>
-                </td>
-                <td class="${getColClass('tipo', 'px-4 py-3 text-center')}">
-                    <div class="relative tipo-dropdown-container w-[100px] mx-auto">
-                        <button type="button" onclick="toggleMenuTipo('desktop-${i.id}', event)" class="w-full flex items-center justify-between stealth-input px-3 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest outline-none cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${tipoColor}">
-                            <span>${tipoDisplay}</span>
-                            <i data-lucide="chevron-down" class="w-3 h-3 ml-1 opacity-50"></i>
-                        </button>
-                        <div id="menu-tipo-desktop-${i.id}" class="hidden absolute left-0 top-full mt-1 w-32 glass-card rounded-xl p-1.5 z-[100] shadow-2xl border border-slate-200 dark:border-slate-700 text-left flex flex-col">
-                            <button type="button" onclick="selecionarTipo('${i.id}', 'venda')" class="w-full block text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-brand-600 dark:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition-colors mb-0.5">Venda</button>
-                            <button type="button" onclick="selecionarTipo('${i.id}', 'aditivo')" class="w-full block text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-colors mb-0.5">Aditivo</button>
-                            <button type="button" onclick="selecionarTipo('${i.id}', 'estorno')" class="w-full block text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors">Estorno</button>
-                        </div>
-                    </div>
-                </td>
-                <td class="${getColClass('vindi', 'px-4 py-3')}">
-                    <div class="flex items-center gap-2">
-                        <input type="text" value="${i.vindi}" onchange="atualizarDado('${i.id}', 'vindi', this.value)" class="w-full stealth-input px-3 py-2 rounded-xl text-xs font-medium text-slate-500 placeholder:text-slate-300 dark:placeholder:text-slate-600" placeholder="# ID ou Link Vindi">
-                        ${i.vindi.startsWith('http') ? `<a href="${i.vindi}" target="_blank" class="p-2 bg-blue-50 dark:bg-blue-900/30 text-blue-500 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"><i data-lucide="external-link" class="w-4 h-4"></i></a>`:''}
-                    </div>
-                </td>
-                <td class="${getColClass('comissao', 'px-4 py-3 text-right')}">
-                    <div class="flex items-center justify-end gap-1">
-                        <span class="${i.tipo === 'estorno' ? 'text-rose-400' : 'text-slate-400'} text-xs font-bold">${i.tipo === 'estorno' ? '-' : ''} R$</span>
-                        <input type="number" value="${i.valorUnitario}" onchange="atualizarDado('${i.id}', 'valorUnitario', this.value)" class="w-20 text-right font-black stealth-input px-2 py-2 rounded-xl ${i.tipo === 'estorno' ? 'text-rose-600 dark:text-rose-400' : 'text-brand-600 dark:text-brand-400'}">
-                    </div>
-                </td>
-                <td class="${getColClass('situacao', 'px-4 py-3 text-center')}">
-                    <span class="px-2 py-1 rounded-lg border text-[10px] font-bold uppercase tracking-widest ${badgeClass}">
-                        ${badgeText}
-                    </span>
-                </td>
-                <td class="${getColClass('recebido', 'px-4 py-3 text-center')}">
-                    <label class="relative inline-flex items-center cursor-pointer group-hover:scale-105 transition-transform">
-                        <input type="checkbox" ${i.pago ? 'checked' : ''} onchange="atualizarDado('${i.id}', 'pago', this.checked)" class="sr-only peer">
-                        <div class="w-11 h-6 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 shadow-inner"></div>
-                    </label>
-                </td>
-                <td class="px-6 py-3 text-right">
-                    <button onclick="excluirLinha('${i.id}')" class="p-2 text-slate-300 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition-colors active:scale-95 opacity-0 group-hover:opacity-100 focus:opacity-100">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </button>
-                </td>`;
-                corpo.appendChild(tr);
-
-                // MOBILE CARD
-                const card = document.createElement('div'); 
-                card.className=`glass-card p-5 rounded-[2rem] space-y-4 relative overflow-hidden ${i.tipo === 'estorno' ? 'border-rose-200/50 dark:border-rose-900/50 bg-rose-50/10' : ''}`;
-                card.innerHTML = `
-                ${i.pago ? '<div class="absolute top-0 right-0 w-16 h-16 bg-emerald-500/10 rounded-bl-[3rem] -z-10"></div>' : ''}
-                
-                <div class="flex justify-between items-start gap-4 mb-2"> 
-                    <input type="text" value="${i.cliente}" placeholder="Cliente..." onchange="atualizarDado('${i.id}', 'cliente', this.value)" class="bg-transparent outline-none flex-1 font-extrabold text-lg text-slate-900 dark:text-white border-b border-transparent focus:border-brand-500 transition-colors"> 
-                    <span class="px-2 py-1 rounded-lg border text-[9px] font-bold uppercase tracking-widest ${badgeClass} shrink-0 mt-1">${badgeText}</span>
-                    <button onclick="excluirLinha('${i.id}')" class="p-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-slate-400 hover:text-rose-500 active:scale-95 transition-all">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </button> 
-                </div>
-                
-                <div class="grid grid-cols-3 gap-2"> 
-                    <div class="bg-slate-50/50 dark:bg-slate-900/50 p-2 rounded-2xl border border-slate-100 dark:border-slate-800 text-center"> 
-                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">Licenças</p> 
-                        <input type="number" value="${i.licencas}" onchange="atualizarDado('${i.id}', 'licencas', this.value)" class="w-full font-black text-center bg-transparent outline-none text-slate-800 dark:text-slate-200"> 
-                    </div> 
-                    <div class="bg-slate-50/50 dark:bg-slate-900/50 p-2 rounded-2xl border border-slate-100 dark:border-slate-800 text-center"> 
-                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">Mês Ref.</p> 
-                        <div class="date-input-container mx-auto">
-                            <input type="month" value="${i.mes}" onchange="atualizarDado('${i.id}', 'mes', this.value)" class="w-full font-black text-[10px] text-center uppercase bg-transparent outline-none text-slate-800 dark:text-slate-200"> 
-                        </div>
-                    </div> 
-                    <div class="bg-slate-50/50 dark:bg-slate-900/50 p-2 rounded-2xl border border-slate-100 dark:border-slate-800 text-center"> 
-                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">Vencimento</p> 
-                        <div class="date-input-container mx-auto">
-                            <input type="date" value="${i.vencimento || ''}" onchange="atualizarDado('${i.id}', 'vencimento', this.value)" class="w-full font-black text-[10px] text-center uppercase bg-transparent outline-none text-slate-800 dark:text-slate-200"> 
-                        </div>
-                    </div> 
-                </div>
-
-                <div class="bg-slate-50/50 dark:bg-slate-900/50 p-3 rounded-2xl border border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                    <div class="relative tipo-dropdown-container">
-                        <button type="button" onclick="toggleMenuTipo('mobile-${i.id}', event)" class="flex items-center justify-between bg-transparent outline-none text-[10px] font-bold uppercase tracking-widest cursor-pointer px-2 py-1 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors ${tipoColor}">
-                            <span>${tipoDisplay}</span>
-                            <i data-lucide="chevron-down" class="w-3 h-3 ml-1 opacity-50"></i>
-                        </button>
-                        <div id="menu-tipo-mobile-${i.id}" class="hidden absolute left-0 bottom-full mb-1 w-32 glass-card rounded-xl p-1.5 z-[100] shadow-2xl border border-slate-200 dark:border-slate-700 text-left flex flex-col">
-                            <button type="button" onclick="selecionarTipo('${i.id}', 'venda')" class="w-full block text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-brand-600 dark:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition-colors mb-0.5">Venda</button>
-                            <button type="button" onclick="selecionarTipo('${i.id}', 'aditivo')" class="w-full block text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-colors mb-0.5">Aditivo</button>
-                            <button type="button" onclick="selecionarTipo('${i.id}', 'estorno')" class="w-full block text-left px-3 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors">Estorno</button>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <span class="text-xs font-bold ${i.tipo === 'estorno' ? 'text-rose-500' : 'text-brand-500'}">${i.tipo === 'estorno' ? '-' : ''} R$</span>
-                        <input type="number" value="${i.valorUnitario}" onchange="atualizarDado('${i.id}', 'valorUnitario', this.value)" class="w-16 font-black bg-transparent outline-none text-right ${i.tipo === 'estorno' ? 'text-rose-600 dark:text-rose-400' : 'text-brand-600 dark:text-brand-400'}"> 
-                    </div>
-                </div>
-                
-                <div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-800"> 
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" ${i.pago ? 'checked' : ''} onchange="atualizarDado('${i.id}', 'pago', this.checked)" class="sr-only peer">
-                        <div class="w-11 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 shadow-inner"></div>
-                        <span class="ml-3 text-[10px] font-bold uppercase tracking-widest ${i.pago ? 'text-emerald-500' : 'text-slate-400'}">${i.pago ? 'Processado' : 'Marcar Recebido'}</span>
-                    </label> 
-                    ${i.vindi.startsWith('http') ? `<a href="${i.vindi}" target="_blank" class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-500/10 px-3 py-2 rounded-xl transition-colors"><i data-lucide="link" class="w-3 h-3"></i> Vindi</a>` : ''} 
-                </div>`;
-                mobile.appendChild(card);
-            });
-            window.updateIcons(); 
-            calcularTudo(); 
-        };
-
-        window.calcularTudo = () => {
-            const fMes = document.getElementById('filtro-mes').value;
-            const filtroStatus = document.getElementById('filtro-status').value;
-            const hoje = new Date().toISOString().slice(0, 10);
-
-            let total = 0;
-            let totalLicencasVenda = 0;
-            let totalLicencasEstorno = 0;
-            
-            window.dados.forEach(i => {
-                const dateMatch = (!fMes || i.mes === fMes);
-                let statusCalc = 'em-dia';
-                if (i.pago) statusCalc = 'pago';
-                else if (i.vencimento && i.vencimento < hoje) statusCalc = 'atrasado';
-                const statusMatch = (filtroStatus === 'todos' || statusCalc === filtroStatus);
-
-                if(dateMatch && statusMatch) {
-                    if (i.tipo === 'estorno') {
-                        totalLicencasEstorno += parseInt(i.licencas) || 0;
-                        if(i.pago) total -= (i.licencas * i.valorUnitario); 
-                    } else { // Venda E Aditivo caem aqui e são somados
-                        totalLicencasVenda += parseInt(i.licencas) || 0;
-                        if(i.pago) total += (i.licencas * i.valorUnitario); 
-                    }
-                }
-            });
-
-            document.getElementById('total-licencas-venda').innerText = totalLicencasVenda;
-            document.getElementById('total-licencas-estorno').innerText = totalLicencasEstorno;
-
-            const c = window.configs;
-            let bruto = c.salBase + total;
-            let inss = bruto <= 1620 ? bruto*0.075 : bruto <= 2850 ? 121.5+(bruto-1620)*0.09 : bruto <= 4200 ? 121.5+110.7+(bruto-2850)*0.12 : bruto <= 8500 ? 121.5+110.7+162+(bruto-4200)*0.14 : 995.5;
-            let bI = bruto - inss;
-            let ir = bI <= 5000 ? 0 : bI <= 5500 ? (bI*0.225-675.49)*0.5 : bI <= 6500 ? bI*0.225-675.49 : bI*0.275-908.73;
-            let fixos = c.saude + (c.outrosGastos || 0) + (c.vtActive ? c.salBase*(c.vtPerc/100) : 0) + (c.admActive ? c.salBase*(c.admPerc/100) : 0);
-
-            document.getElementById('res-bruto').innerText = bruto.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            document.getElementById('res-inss').innerText = inss.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            document.getElementById('res-irrf').innerText = ir.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            document.getElementById('res-descontos').innerText = fixos.toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-            document.getElementById('res-liquido').innerText = (bruto - inss - ir - fixos).toLocaleString('pt-br',{style:'currency',currency:'BRL'});
-        };
-
-        // Inicialização do Tema
-        if(localStorage.getItem('theme')==='dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-        window.updateIcons(); 
-
-        // PWA - Registro do Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker registrado com sucesso!', reg.scope))
-                    .catch(err => console.error('Erro ao registrar Service Worker:', err));
-            });
-        }
-    </script>
-</body>
-</html>
+                <div class="col-span-2 lg:col-span-1 bg-gradient-to-br from-emerald-400 to-emerald-600 p-6 rounded-[2rem] shadow-xl shadow-emerald-500/30 text-white hover:-
